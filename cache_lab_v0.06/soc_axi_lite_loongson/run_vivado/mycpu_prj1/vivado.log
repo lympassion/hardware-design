@@ -209,3 +209,4 @@ upgrade_ip: Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 
 d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_clock_converter/axi_clock_converter.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_crossbar_1x2/axi_crossbar_1x2.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_ram/axi_ram.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/clk_pll/clk_pll.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/signed_mult/signed_mult.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/unsigned_mult/unsigned_mult.xci
 update_compile_order -fileset sources_1
 update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1

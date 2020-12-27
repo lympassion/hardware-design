@@ -23,3 +23,4 @@ update_compile_order -fileset sources_1
 upgrade_ip [get_ips]
 update_compile_order -fileset sources_1
 update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1

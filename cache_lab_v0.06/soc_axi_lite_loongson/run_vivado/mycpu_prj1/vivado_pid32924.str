@@ -377,3 +377,8 @@ selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sourc
 // HMemoryUtils.trashcanNow. Engine heap size: 914 MB. GUI used memory: 57 MB. Current time: 12/27/20, 5:13:14 PM CST
 // WARNING: HEventQueue.dispatchEvent() is taking  1618321 ms.
 // HMemoryUtils.trashcanNow. Engine heap size: 914 MB. GUI used memory: 56 MB. Current time: 12/27/20, 5:44:41 PM CST
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
