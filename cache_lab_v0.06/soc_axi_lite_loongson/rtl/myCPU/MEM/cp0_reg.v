@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`include "defines.vh"
+`include "./../defines.vh"
 
 //cp0 status
 `define IE_BIT 0              //
