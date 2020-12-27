@@ -1,0 +1,379 @@
+/*
+
+Xilinx Vivado v2019.1 (64-bit) [Major: 2019, Minor: 1]
+SW Build: 2552052 on Fri May 24 14:49:42 MDT 2019
+IP Build: 2548770 on Fri May 24 18:01:18 MDT 2019
+
+Process ID (PID): 32924
+License: Customer
+
+Current time: 	Sun Dec 27 16:09:47 CST 2020
+Time zone: 	China Standard Time (Asia/Shanghai)
+
+OS: Windows 10
+OS Version: 10.0
+OS Architecture: amd64
+Available processors (cores): 8
+
+Screen size: 1920x1080
+Screen resolution (DPI): 125
+Available screens: 1
+Available disk space: 106 GB
+Default font: family=Dialog,name=Dialog,style=plain,size=15
+
+Java version: 	9.0.4 64-bit
+Java home: 	F:/Xilinx/Vivado/2019.1/tps/win64/jre9.0.4
+Java executable location: 	F:/Xilinx/Vivado/2019.1/tps/win64/jre9.0.4/bin/java.exe
+Java initial memory (-Xms): 	128 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	ASUS
+User home directory: C:/Users/ASUS
+User working directory: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1
+User country: 	CN
+User language: 	zh
+User locale: 	zh_CN
+
+RDI_BASEROOT: F:/Xilinx/Vivado
+HDI_APPROOT: F:/Xilinx/Vivado/2019.1
+RDI_DATADIR: F:/Xilinx/Vivado/2019.1/data
+RDI_BINDIR: F:/Xilinx/Vivado/2019.1/bin
+
+Vivado preferences file location: C:/Users/ASUS/AppData/Roaming/Xilinx/Vivado/2019.1/vivado.xml
+Vivado preferences directory: C:/Users/ASUS/AppData/Roaming/Xilinx/Vivado/2019.1/
+Vivado layouts directory: C:/Users/ASUS/AppData/Roaming/Xilinx/Vivado/2019.1/layouts
+PlanAhead jar file location: 	F:/Xilinx/Vivado/2019.1/lib/classes/planAhead.jar
+Vivado log file location: 	D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/vivado.log
+Vivado journal file location: 	D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/vivado.jou
+Engine tmp dir: 	D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/.Xil/Vivado-32924-hsly
+
+Xilinx Environment Variables
+----------------------------
+XILINX: F:/Xilinx/Vivado/2019.1/ids_lite/ISE
+XILINXD_LICENSE_FILE: C:\.Xilinx\xilinx_ise_vivado.lic
+XILINX_DSP: F:/Xilinx/Vivado/2019.1/ids_lite/ISE
+XILINX_PLANAHEAD: F:/Xilinx/Vivado/2019.1
+XILINX_VIVADO: F:/Xilinx/Vivado/2019.1
+XILINX_VIVADO_HLS: F:/Xilinx/Vivado/2019.1
+
+
+GUI allocated memory:	128 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 556 MB
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// TclEventType: PROJECT_OPEN_DIALOG
+// HOptionPane Warning: 'This project was created with a future version of Vivado. It will be opened in read-only mode for the protection of unrecognized data. Please use 'File | Save Project As...' if you need to alter a copy of this project. The project may or may not open reliably with this version of Vivado. OK to proceed and open the project? (Future Project Version)'
+// WARNING: HEventQueue.dispatchEvent() is taking  1002 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 556 MB. GUI used memory: 49 MB. Current time: 12/27/20, 4:09:49 PM CST
+// by (cl):  Open Project : addNotify
+selectButton("OptionPane.button", "OK"); // JButton (A, G)
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// Tcl Message: open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/mycpu.xpr 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1' 
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 104 MB (+106503kb) [00:00:38]
+// [Engine Memory]: 600 MB (+477956kb) [00:00:38]
+// WARNING: HEventQueue.dispatchEvent() is taking  3845 ms.
+// Tcl Message: open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/mycpu.xpr 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1' INFO: [Project 1-313] Project file moved from 'd:/nscscc2020/Õ≈∂”»¸/nscscc2019-info/nscscc2019_release_v0.01/perf_test_v0.01/soc_axi_perf/run_vivado/mycpu_prj1' since last save. 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'F:/Xilinx/Vivado/2019.1/data/ip'. 
+// HMemoryUtils.trashcanNow. Engine heap size: 628 MB. GUI used memory: 54 MB. Current time: 12/27/20, 4:10:13 PM CST
+// Tcl Message: open_project: Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 654.066 ; gain = 61.145 
+// Project name: mycpu; location: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1; part: xc7a200tfbg676-2
+// [Engine Memory]: 634 MB (+3682kb) [00:00:41]
+// Elapsed time: 16 seconds
+dismissDialog("Open Project"); // by (cl)
+// a (cl): Critical Messages: addNotify
+// y (cl): Project is Read-Only: addNotify
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 698 MB (+34351kb) [00:00:48]
+// Tcl Message: update_compile_order -fileset sources_1 
+// Elapsed time: 12 seconds
+selectButton(PAResourceOtoP.Project_SAVE_PROJECT_AS, "Save Project As..."); // a (y)
+// Run Command: PAResourceCommand.PACommandNames_SAVE_PROJECT_AS
+// aE (cl): Save Project As: addNotify
+dismissDialog("Project is Read-Only"); // y (cl)
+// Elapsed time: 36 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (aE)
+// 'o' command handler elapsed time: 37 seconds
+dismissDialog("Save Project As"); // aE (cl)
+dismissDialog("Critical Messages"); // a (cl)
+// TclEventType: PROJECT_RENAME
+// by (cl):  Save Project As : addNotify
+// Tcl Message: save_project_as project_1 D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1 -force 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1' 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// [GUI Memory]: 112 MB (+2877kb) [00:01:34]
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: PROJECT_RENAME
+// by (cl):  Save Constraints : addNotify
+dismissDialog("Save Constraints"); // by (cl)
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2); // B (F, cl)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_axi_clock_sync : axi_clock_converter (axi_clock_converter.xci)]", 5, false); // B (F, cl)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_axi_clock_sync : axi_clock_converter (axi_clock_converter.xci)]", 5, false); // B (F, cl)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_axi_clock_sync : axi_clock_converter (axi_clock_converter.xci)]", 5, false, false, false, false, true, false); // B (F, cl) - Popup Trigger
+selectMenu(PAResourceQtoS.SrcMenu_IP_DOCUMENTATION, "IP Documentation"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_DOCUMENTATION, "IP Documentation"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_DOCUMENTATION, "IP Documentation"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ae (an, Popup.HeavyWeightWindow)
+selectMenuItem(PAResourceCommand.PACommandNames_REPORT_IP_STATUS, "Report IP Status"); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: PAResourceCommand.PACommandNames_REPORT_IP_STATUS
+// Tcl Command: 'report_ip_status -name ip_status '
+// TclEventType: IP_SUMMARY_RESULTS
+// Tcl Message: report_ip_status -name ip_status  
+// by (cl):  Report IP Status : addNotify
+dismissDialog("Report IP Status"); // by (cl)
+selectTreeTable(PAResourceItoN.IPStatusTablePanel_IP_STATUS_TABLE, "axi_crossbar_1x2 ; false ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; AXI Crossbar ; 2.1 (Rev. 21) ; 2.1 (Rev. 20) ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; xc7a200tfbg676-2", 1, "axi_crossbar_1x2", 0, false); // B (O, cl)
+selectTreeTable(PAResourceItoN.IPStatusTablePanel_IP_STATUS_TABLE, "axi_crossbar_1x2 ; false ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; AXI Crossbar ; 2.1 (Rev. 21) ; 2.1 (Rev. 20) ; axi_crossbar_1x2 [AXI Crossbar] (Project read-only. IP revision change) ; xc7a200tfbg676-2", 1, "false", 1, false); // B (O, cl)
+closeFrame(PAResourceOtoP.PAViews_IP_STATUS, "IP Status - ip_status"); // az (aK, cl)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // aK (aH, cl)
+// Tcl Command: 'rdi::info_commands {u*}'
+// Tcl Command: 'rdi::info_commands {up*}'
+// Tcl Command: 'rdi::info_commands {upg*}'
+// Tcl Command: 'rdi::info_commands {upgr*}'
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "upgr", true); // aC (Z, cl)
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "upgrade_ip --help", true); // aC (Z, cl)
+// Tcl Command: 'upgrade_ip --help'
+// Tcl Command: 'upgrade_ip --help'
+// Tcl Message: upgrade_ip --help 
+// Tcl Message: ERROR: [Common 17-170] Unknown option '--help', please type 'upgrade_ip -help' for usage info. 
+// Tcl Command: 'rdi::match_options {upgrade_ip} {}'
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "upgrade_ip -help", true); // aC (Z, cl)
+// Tcl Command: 'upgrade_ip -help'
+// Tcl Command: 'upgrade_ip -help'
+// Tcl Message: upgrade_ip -help 
+selectCodeEditor(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, 197, 154); // dt (af, cl)
+typeControlKey(RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR, "RDIResource.TclConsoleView_TCL_CONSOLE_CODE_EDITOR", 'c'); // dt (af, cl)
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "upgrade_ip [get_ips]", true); // aC (Z, cl)
+// Tcl Command: 'upgrade_ip [get_ips]'
+// Tcl Command: 'upgrade_ip [get_ips]'
+// Tcl Message: upgrade_ip [get_ips] 
+// [GUI Memory]: 118 MB (+947kb) [00:02:32]
+// Elapsed time: 19 seconds
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // Z (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_PROJECT, "Project"); // ae (cl)
+selectMenu(PAResourceItoN.MainMenuMgr_CHECKPOINT, "Checkpoint"); // ae (cl)
+selectMenuItem(PAResourceCommand.PACommandNames_CLOSE_PROJECT, "Close Project"); // ah (cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // Z (q, cl)
+// Run Command: PAResourceCommand.PACommandNames_CLOSE_PROJECT
+// A (cl): Close Project: addNotify
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a (A)
+// by (cl):  Close Project : addNotify
+dismissDialog("Close Project"); // A (cl)
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 698 MB. GUI used memory: 78 MB. Current time: 12/27/20, 4:12:28 PM CST
+// Tcl Message: close_project 
+dismissDialog("Close Project"); // by (cl)
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // Z (q, cl)
+selectMenu(PAResourceItoN.MainMenuMgr_PROJECT, "Project"); // ae (cl)
+selectMenuItem(PAResourceCommand.PACommandNames_OPEN_PROJECT, "Open..."); // ah (cl)
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // Z (q, cl)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_PROJECT
+setFileChooser("D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1/project_1.xpr");
+// Opening Vivado Project: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1/project_1.xpr. Version: Vivado v2019.1 
+// by (cl):  Open Project : addNotify
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// Tcl Message: open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1/project_1.xpr 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1' 
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: IP_LOCK_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PROJECT_NEW
+// WARNING: HEventQueue.dispatchEvent() is taking  1311 ms.
+// Tcl Message: open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1/project_1.xpr 
+// Tcl Message: INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter. Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1' 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'F:/Xilinx/Vivado/2019.1/data/ip'. 
+// Project name: project_1; location: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1; part: xc7a200tfbg676-2
+// 'i' command handler elapsed time: 11 seconds
+dismissDialog("Open Project"); // by (cl)
+// Tcl Message: update_compile_order -fileset sources_1 
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2); // B (F, cl)
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // aK (aH, cl)
+setText(RDIResource.CommandsInput_TYPE_TCL_COMMAND_HERE, "upgrade_ip [get_ips]", true); // aC (Z, cl)
+// Tcl Command: 'upgrade_ip [get_ips]'
+// Tcl Command: 'upgrade_ip [get_ips]'
+// Tcl Message: upgrade_ip [get_ips] 
+// Tcl Message: Upgrading 'axi_clock_converter' 
+// TclEventType: LOAD_FEATURE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// by (cl):  Tcl Command Line : addNotify
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILESET_UPDATE_IP
+// Tcl Message: INFO: [IP_Flow 19-3422] Upgraded axi_clock_converter (AXI Clock Converter 2.1) from revision 19 to revision 18 INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'axi_clock_converter'... 
+// Tcl Message: Upgrading 'axi_crossbar_1x2' 
+// HMemoryUtils.trashcanNow. Engine heap size: 719 MB. GUI used memory: 62 MB. Current time: 12/27/20, 4:12:59 PM CST
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILESET_UPDATE_IP
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: INFO: [IP_Flow 19-3422] Upgraded axi_crossbar_1x2 (AXI Crossbar 2.1) from revision 21 to revision 20 INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'axi_crossbar_1x2'... 
+// Tcl Message: Upgrading 'axi_ram' 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILESET_UPDATE_IP
+// Tcl Message: INFO: [IP_Flow 19-3422] Upgraded axi_ram (Block Memory Generator 8.4) from revision 4 to revision 3 INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'axi_ram'... 
+// Tcl Message: Upgrading 'clk_pll' 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: PACKAGER_OBJECT_ADD
+// TclEventType: PACKAGER_OBJECT_CHANGE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 898 MB. GUI used memory: 61 MB. Current time: 12/27/20, 4:13:14 PM CST
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILESET_UPDATE_IP
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: INFO: [IP_Flow 19-3422] Upgraded clk_pll (Clocking Wizard 6.0) from revision 4 to revision 3 INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'clk_pll'... 
+// Tcl Message: Upgrading 'signed_mult' 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILESET_UPDATE_IP
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILESET_UPDATE_IP
+// TclEventType: IP_UPGRADE_COMPLETE
+// Tcl Message: INFO: [IP_Flow 19-3422] Upgraded signed_mult (Multiplier 12.0) from revision 16 to revision 15 INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'signed_mult'... 
+// Tcl Message: Upgrading 'unsigned_mult' 
+// Tcl Message: INFO: [IP_Flow 19-3422] Upgraded unsigned_mult (Multiplier 12.0) from revision 16 to revision 15 INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'unsigned_mult'... 
+// Tcl Message: upgrade_ip: Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 962.441 ; gain = 203.148 
+// Tcl Message: d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_clock_converter/axi_clock_converter.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_crossbar_1x2/axi_crossbar_1x2.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_ram/axi_ram.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/clk_pll/clk_pll.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/signed_mult/signed_mult.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/unsigned_mult/unsigned_mult.xci 
+// [Engine Memory]: 904 MB (+179529kb) [00:03:43]
+// Elapsed time: 19 seconds
+dismissDialog("Tcl Command Line"); // by (cl)
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 55 seconds
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v)]", 3); // B (F, cl)
+// Elapsed time: 10 seconds
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), mips_core : mips_core (mips_core.v)]", 4); // B (F, cl)
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), mips_core : mips_core (mips_core.v)]", 4); // B (F, cl)
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), cache : cache (cache.v)]", 7); // B (F, cl)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), cache : cache (cache.v), i_cache : i_cache (i_cache.v)]", 8, false); // B (F, cl)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), cache : cache (cache.v), i_cache : i_cache (i_cache.v)]", 8, false, false, false, false, false, true); // B (F, cl) - Double Click
+// Launch External Editor: 'E:/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/Code.exe "D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/myCPU/i_cache.v" -l1'
+// Elapsed time: 157 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), mips_core : mips_core (mips_core.v)]", 4, true); // B (F, cl) - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), mmu : mmu (mmu.v)]", 5, false); // B (F, cl)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), mips_core : mips_core (mips_core.v)]", 4, true); // B (F, cl) - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v), mips_core : mips_core (mips_core.v)]", 4, true, false, false, false, true, false); // B (F, cl) - Popup Trigger - Node
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v)]", 3, true); // B (F, cl) - Node
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2); // B (F, cl)
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2, true, false, false, false, true, false); // B (F, cl) - Popup Trigger - Node
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenuItem(RDIResourceCommand.RDICommands_PROPERTIES, "Source Node Properties..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: RDIResourceCommand.RDICommands_PROPERTIES
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2, true, false, false, false, true, false); // B (F, cl) - Popup Trigger - Node
+selectMenuItem(PAResourceQtoS.SrcMenu_OPEN_SELECTED_SOURCE_FILES, "Open Files"); // ah (an, Popup.HeavyWeightWindow)
+// Launch External Editor: 'E:/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/Code.exe "D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/myCPU/mycpu_top.v" -l0'
+// Launch External Editor: 'E:/Users/ASUS/AppData/Local/Programs/Microsoft VS Code/Code.exe "D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/soc_axi_lite_top.v" -l65'
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2, true, false, false, false, true, false); // B (F, cl) - Popup Trigger - Node
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceQtoS.SrcMenu_IP_HIERARCHY, "IP Hierarchy"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenu(PAResourceCommand.PACommandNames_AUTO_UPDATE_HIER, "Hierarchy Update"); // ae (an, Popup.HeavyWeightWindow)
+selectMenuItem(RDIResourceCommand.RDICommands_PROPERTIES, "Source Node Properties..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: RDIResourceCommand.RDICommands_PROPERTIES
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, div_self_align (div_self_align.v)]", 3, true); // B (F, cl) - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, div_self_align (div_self_align.v)]", 3, true, false, false, false, true, false); // B (F, cl) - Popup Trigger - Node
+selectMenuItem(RDIResourceCommand.RDICommands_PROPERTIES, "Source Node Properties..."); // ah (an, Popup.HeavyWeightWindow)
+// Run Command: RDIResourceCommand.RDICommands_PROPERTIES
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2, true); // B (F, cl) - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, div_self_align (div_self_align.v)]", 3, true); // B (F, cl) - Node
+selectTab(RDIResource.PropertiesView_TABBED_PANE, (HResource) null, "Properties", 1); // i (c, cl)
+selectTab(RDIResource.PropertiesView_TABBED_PANE, (HResource) null, "General", 0); // i (c, cl)
+selectTab(RDIResource.PropertiesView_TABBED_PANE, (HResource) null, "Properties", 1); // i (c, cl)
+// Elapsed time: 15 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2, true); // B (F, cl) - Node
+// Elapsed time: 44 seconds
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v)]", 2); // B (F, cl)
+// Elapsed time: 60 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v)]", 3, true); // B (F, cl) - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v)]", 3, true, false, false, false, true, false); // B (F, cl) - Popup Trigger - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v)]", 3, true); // B (F, cl) - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v)]", 3, true, false, false, false, true, false); // B (F, cl) - Popup Trigger - Node
+// Elapsed time: 12 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, soc_axi_lite_top (soc_axi_lite_top.v), u_cpu : mycpu_top (mycpu_top.v)]", 3, true); // B (F, cl) - Node
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// HMemoryUtils.trashcanNow. Engine heap size: 914 MB. GUI used memory: 62 MB. Current time: 12/27/20, 4:43:14 PM CST
+// HMemoryUtils.trashcanNow. Engine heap size: 914 MB. GUI used memory: 57 MB. Current time: 12/27/20, 5:13:14 PM CST
+// WARNING: HEventQueue.dispatchEvent() is taking  1618321 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 914 MB. GUI used memory: 56 MB. Current time: 12/27/20, 5:44:41 PM CST

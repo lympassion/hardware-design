@@ -1,0 +1,211 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Sun Dec 27 16:08:52 2020
+# Process ID: 32924
+# Current directory: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent26740 D:\github\hardware-design\cache_lab_v0.06\soc_axi_lite_loongson\run_vivado\mycpu_prj1\mycpu.xpr
+# Log file: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/vivado.log
+# Journal file: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/mycpu.xpr
+INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter.
+Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1'
+INFO: [Project 1-313] Project file moved from 'd:/nscscc2020/团队赛/nscscc2019-info/nscscc2019_release_v0.01/perf_test_v0.01/soc_axi_perf/run_vivado/mycpu_prj1' since last save.
+Scanning sources...
+Finished scanning sources
+WARNING: [filemgmt 56-2] IPUserFilesDir: Could not find the directory 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/mycpu.ip_user_files', nor could it be found using path 'd:/nscscc2020/团队赛/nscscc2019-info/nscscc2019_release_v0.01/perf_test_v0.01/soc_axi_perf/run_vivado/mycpu_prj1/mycpu.ip_user_files'.
+CRITICAL WARNING: [Project 1-505] Unrecognized Option Name DcpsUptoDate
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'F:/Xilinx/Vivado/2019.1/data/ip'.
+WARNING: [IP_Flow 19-2162] IP 'axi_clock_converter' is locked:
+* Project containing IP 'axi_clock_converter' is read-only. * IP definition 'AXI Clock Converter (2.1)' for IP 'axi_clock_converter' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_crossbar_1x2' is locked:
+* Project containing IP 'axi_crossbar_1x2' is read-only. * IP definition 'AXI Crossbar (2.1)' for IP 'axi_crossbar_1x2' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_ram' is locked:
+* Project containing IP 'axi_ram' is read-only. * IP definition 'Block Memory Generator (8.4)' for IP 'axi_ram' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'clk_pll' is locked:
+* Project containing IP 'clk_pll' is read-only. * IP definition 'Clocking Wizard (6.0)' for IP 'clk_pll' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'signed_mult' is locked:
+* Project containing IP 'signed_mult' is read-only. * IP definition 'Multiplier (12.0)' for IP 'signed_mult' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'unsigned_mult' is locked:
+* Project containing IP 'unsigned_mult' is read-only. * IP definition 'Multiplier (12.0)' for IP 'unsigned_mult' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [Project 1-231] Project 'mycpu.xpr' was created with a future version and may or may not perform reliably with this version of Vivado. It has been opened in read-only mode for the protection of unrecognized data. Use 'File | Save Project As...' if you wish to alter a copy of the project.
+open_project: Time (s): cpu = 00:00:11 ; elapsed = 00:00:15 . Memory (MB): peak = 654.066 ; gain = 61.145
+update_compile_order -fileset sources_1
+save_project_as project_1 D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1 -force
+INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter.
+Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1'
+WARNING: [IP_Flow 19-2162] IP 'clk_pll' is locked:
+* Project containing IP 'clk_pll' is read-only. * IP definition 'Clocking Wizard (6.0)' for IP 'clk_pll' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_ram' is locked:
+* Project containing IP 'axi_ram' is read-only. * IP definition 'Block Memory Generator (8.4)' for IP 'axi_ram' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_crossbar_1x2' is locked:
+* Project containing IP 'axi_crossbar_1x2' is read-only. * IP definition 'AXI Crossbar (2.1)' for IP 'axi_crossbar_1x2' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_clock_converter' is locked:
+* Project containing IP 'axi_clock_converter' is read-only. * IP definition 'AXI Clock Converter (2.1)' for IP 'axi_clock_converter' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'unsigned_mult' is locked:
+* Project containing IP 'unsigned_mult' is read-only. * IP definition 'Multiplier (12.0)' for IP 'unsigned_mult' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'signed_mult' is locked:
+* Project containing IP 'signed_mult' is read-only. * IP definition 'Multiplier (12.0)' for IP 'signed_mult' (customized with software release 2019.2) has a different revision in the IP Catalog.
+report_ip_status -name ip_status 
+upgrade_ip --help
+ERROR: [Common 17-170] Unknown option '--help', please type 'upgrade_ip -help' for usage info.
+upgrade_ip -help
+upgrade_ip
+
+Description: 
+Upgrade a configurable IP to a later version
+
+Syntax: 
+upgrade_ip  [-srcset <arg>] [-vlnv <arg>] [-log <arg>] [-quiet] [-verbose]
+            <objects>...
+
+Returns: 
+A return code indicating success or failure.
+
+Usage: 
+  Name        Description
+  -----------------------
+  [-srcset]   (Optional) Specifies the source file set containing the IP to 
+              be upgraded
+              Default: The current source fileset
+              Values: Source set name
+  [-vlnv]     (Optional) Identifies the Catalog IP to which the IP will be 
+              upgraded. The VLNV string maps to the IPDEF property on the IP 
+              core. This is a strict comparison, and the upgrade will fail if
+              the identified IP does not exist in the Catalog.
+              Default: Latest version of the current IP
+              Values: A string of the form '<vendor>:<library>:<name>:<versio
+              n>'
+  [-log]      (Optional) Identifies the log file to which the IP upgrade 
+              report will be concatenated. 
+              Default: An empty string, indicating that no log will be 
+              written
+              Values: A file path to an existing writable file, or a 
+              non-existent file location in a writable directory
+  [-quiet]    Ignore command errors
+  [-verbose]  Suspend message limits during command execution
+  <objects>   IP to be upgraded
+              Values: IP instance(s) within the design, as returned by 
+              'get_ips <instance name>' or 'get_bd_cells <cell name>'
+
+Categories: 
+IPFlow
+
+Description:
+
+  This command upgrades the specified IP cores from an older version to the
+  latest version in the IP catalog.
+
+  You can only upgrade IP that explicitly supports upgrading. The
+  UPGRADE_VERSIONS property on the ipdef object indicates if there are
+  upgrade versions for an IP core.
+
+  Note: The upgrade_ip command also accepts Block Design cell IP instances as
+  bd_cell objects. The command upgrades the bd_cell objects within the Block
+  Design, and does not require the diagram to be open in the Vivado IP
+  integrator .
+
+Arguments:
+
+  -srcset <arg> - (Optional) Specifies the source file set to upgrade the IP
+  files in. If not specified, the default source file set is sources_1.
+
+  -vlnv <arg> - (Optional) Specify the Vendor:Library:Name:Version attribute
+  of the IP to upgrade from the IP catalog. The VLNV attribute identifies the
+  object in the IP catalog.
+
+  -log <arg> - (Optional) Specifies the name of a file to append the IP
+  upgrade information to. By default the upgrade_ip command does not log its
+  activities.
+
+  Note: If the path is not specified as part of the file name, the log file
+  will be written into the current project directory.
+
+  -quiet - (Optional) Execute the command quietly, returning no messages from
+  the command. The command also returns TCL_OK regardless of any errors
+  encountered during execution.
+
+  Note: Any errors encountered on the command-line, while launching the
+  command, will be returned. Only errors occurring inside the command will be
+  trapped.
+
+  -verbose - (Optional) Temporarily override any message limits and return
+  all messages from this command.
+
+  Note: Message limits can be defined with the set_msg_config command.
+
+  <objects> - (Required) Specifies which IP cores of Block Design cells to
+  upgrade. The IP must be specified as objects returned by the get_ips
+  command.
+
+  Note: Do not use the get_ips -all option, as this can result in recursion
+  issues.
+
+Examples:
+
+  The following example upgrades all IP cores in the current project to the
+  latest version:
+
+    upgrade_ip [get_ips] 
+    
+
+See Also:
+
+   *  create_ip
+   *  get_bd_cells
+   *  get_ips
+   *  import_ip
+   *  open_bd_design
+upgrade_ip [get_ips]
+WARNING: [Coretcl 2-1042] No IP was identified for upgrade.
+close_project
+open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1/project_1.xpr
+INFO: [ProjectBase 1-489] The host OS only allows 260 characters in a normal path. The project is stored in a path with more than 80 characters. If you experience issues with IP, Block Designs, or files not being found, please consider moving the project to a location with a shorter path. Alternately consider using the OS subst command to map part of the path to a drive letter.
+Current project path is 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1'
+Scanning sources...
+Finished scanning sources
+WARNING: [filemgmt 56-3] IPUserFilesDir: Could not find the directory 'D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1/project_1.ip_user_files'.
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'F:/Xilinx/Vivado/2019.1/data/ip'.
+WARNING: [IP_Flow 19-2162] IP 'clk_pll' is locked:
+* IP definition 'Clocking Wizard (6.0)' for IP 'clk_pll' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_ram' is locked:
+* IP definition 'Block Memory Generator (8.4)' for IP 'axi_ram' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_crossbar_1x2' is locked:
+* IP definition 'AXI Crossbar (2.1)' for IP 'axi_crossbar_1x2' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'axi_clock_converter' is locked:
+* IP definition 'AXI Clock Converter (2.1)' for IP 'axi_clock_converter' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'unsigned_mult' is locked:
+* IP definition 'Multiplier (12.0)' for IP 'unsigned_mult' (customized with software release 2019.2) has a different revision in the IP Catalog.
+WARNING: [IP_Flow 19-2162] IP 'signed_mult' is locked:
+* IP definition 'Multiplier (12.0)' for IP 'signed_mult' (customized with software release 2019.2) has a different revision in the IP Catalog.
+update_compile_order -fileset sources_1
+upgrade_ip [get_ips]
+Upgrading 'axi_clock_converter'
+INFO: [IP_Flow 19-3422] Upgraded axi_clock_converter (AXI Clock Converter 2.1) from revision 19 to revision 18
+INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'axi_clock_converter'...
+Upgrading 'axi_crossbar_1x2'
+INFO: [IP_Flow 19-3422] Upgraded axi_crossbar_1x2 (AXI Crossbar 2.1) from revision 21 to revision 20
+INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'axi_crossbar_1x2'...
+Upgrading 'axi_ram'
+INFO: [IP_Flow 19-3422] Upgraded axi_ram (Block Memory Generator 8.4) from revision 4 to revision 3
+INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'axi_ram'...
+Upgrading 'clk_pll'
+INFO: [IP_Flow 19-3422] Upgraded clk_pll (Clocking Wizard 6.0) from revision 4 to revision 3
+INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'clk_pll'...
+Upgrading 'signed_mult'
+INFO: [IP_Flow 19-3422] Upgraded signed_mult (Multiplier 12.0) from revision 16 to revision 15
+INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'signed_mult'...
+Upgrading 'unsigned_mult'
+INFO: [IP_Flow 19-3422] Upgraded unsigned_mult (Multiplier 12.0) from revision 16 to revision 15
+INFO: [IP_Flow 19-1686] Generating 'Instantiation Template' target for IP 'unsigned_mult'...
+upgrade_ip: Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 962.441 ; gain = 203.148
+d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_clock_converter/axi_clock_converter.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_crossbar_1x2/axi_crossbar_1x2.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/axi_ram/axi_ram.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/clk_pll/clk_pll.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/signed_mult/signed_mult.xci d:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/rtl/xilinx_ip/unsigned_mult/unsigned_mult.xci
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
