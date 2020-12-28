@@ -1,0 +1,26 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Sun Dec 27 18:21:03 2020
+# Process ID: 17320
+# Current directory: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent34404 D:\github\hardware-design\cache_lab_v0.06\soc_axi_lite_loongson\run_vivado\mycpu_prj1\mycpu.xpr
+# Log file: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/vivado.log
+# Journal file: D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/mycpu.xpr
+update_compile_order -fileset sources_1
+save_project_as project_1 D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1 -force
+pwd
+cd ./p
+cd ./project_1/project_1.xpr
+cd ./project_1/
+pwd
+upgrade_ip [get_ips]
+upgrade_ip [get_ips]
+close_project
+open_project D:/github/hardware-design/cache_lab_v0.06/soc_axi_lite_loongson/run_vivado/mycpu_prj1/project_1/project_1.xpr
+update_compile_order -fileset sources_1
+upgrade_ip [get_ips]
