@@ -42,17 +42,18 @@ module dataPath(
     wire [31:0] ALUOutE;
     //mem stage
     wire [4:0] writeRegM;
-    wire memToRegM,memWriteM,regWriteM;
+    // wire memToRegM,memWriteM,regWriteM;
+    wire memToRegM, regWriteM;
     //write back stage
     wire [4:0] writeRegW;
     wire [31:0] ALUoutW,readDataW,resultW;
     wire memToRegW,regWriteW;
 
-    wire zero,overFlow;               //ÁÙÊ±ÐÅºÅ£¬ÓÃ´¦²»´ó
+    wire zero,overFlow;               //ï¿½ï¿½Ê±ï¿½ÅºÅ£ï¿½ï¿½Ã´ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    assign pcSrcD = branchD & euqalD;  //ÊÇ·ñÌø×ªÐÅºÅ
+    assign pcSrcD = branchD & euqalD;  //ï¿½Ç·ï¿½ï¿½ï¿½×ªï¿½Åºï¿½
 
-    //Ã°ÏÕ¿ØÖÆ
+    //Ã°ï¿½Õ¿ï¿½ï¿½ï¿½
     hazard h(
      //fetch stage
     .stallF(stallF),
@@ -99,9 +100,9 @@ module dataPath(
         .s(jumpD),
         .y(pc_next_FD)
     );
-    //regfile(ÔÚÒëÂëºÍÐ´»ØÊ±)
+    //regfile(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½Ê±)
     regfile rf(
-        .clk(~clk),   //×¢Òâ~clk
+        .clk(~clk),   //×¢ï¿½ï¿½~clk
         .we(regWriteW),
         .ra1(rsD),
         .ra2(rtD),
@@ -183,6 +184,7 @@ module dataPath(
         .y(euqalD)
     );
     
+    // æŒ‡ä»¤çš„åˆ†è§£
     assign opD = instrD[31:26];
     assign functD = instrD[5:0];
     assign rsD = instrD[25:21];
@@ -192,15 +194,15 @@ module dataPath(
     //execute stage
     floprc #(8) regE(clk,rst,flushE,{memToRegD,memWriteD,aluSrcD,regDstD,regWriteD,ALUControlD},
     {memToRegE,memWriteE,aluSrcE,regDstE,regWriteE,ALUControlE});
-    floprc #(32) r1E(clk,rst,flushE,srcaD,srcaE);  //´Ó¼Ä´æÆ÷¶Á³öÀ´µÄÊý¾ÝA
-    floprc #(32) r2E(clk,rst,flushE,srcbD,srcbE);  //´Ó¼Ä´æÆ÷¶Á³öÀ´µÄÊý¾ÝB
-    floprc #(32) r3E(clk,rst,flushE,signImmD,signImmE);  //´Ódecode½×¶Îµ½execute½×¶ÎÀ©Õ¹ºóµÄÁ¢¼´Êý
+    floprc #(32) r1E(clk,rst,flushE,srcaD,srcaE);  //ï¿½Ó¼Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A
+    floprc #(32) r2E(clk,rst,flushE,srcbD,srcbE);  //ï¿½Ó¼Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
+    floprc #(32) r3E(clk,rst,flushE,signImmD,signImmE);  //ï¿½ï¿½decodeï¿½×¶Îµï¿½executeï¿½×¶ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	floprc #(5) r4E(clk,rst,flushE,rsD,rsE);
 	floprc #(5) r5E(clk,rst,flushE,rtD,rtE);
 	floprc #(5) r6E(clk,rst,flushE,rdD,rdE);
 
-    mux3to1 #(32) mux_alu_src1(srcaE,resultW,ALUOutM,forwardAE,srca2E);  //Ñ¡ÔñALUµÄµÚÒ»¸öÊý¾ÝÔ´
-    mux3to1 #(32) mux_alu_src2(srcbE,resultW,ALUOutM,forwardBE,srcb2E);  //Ñ¡ÔñALUµÄµÚ¶þ¸öÊý¾ÝÔ´
+    mux3to1 #(32) mux_alu_src1(srcaE,resultW,ALUOutM,forwardAE,srca2E);  //Ñ¡ï¿½ï¿½ALUï¿½Äµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
+    mux3to1 #(32) mux_alu_src2(srcbE,resultW,ALUOutM,forwardBE,srcb2E);  //Ñ¡ï¿½ï¿½ALUï¿½ÄµÚ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
     mux2to1 #(32) mux_alu_src3(signImmE,srcb2E,aluSrcE,srcb3E);
     ALU alu(
         .A(srca2E),
@@ -216,8 +218,8 @@ module dataPath(
     //mem stage
     flopr #(8) regM(clk,rst,{memToRegE,memWriteE,regWriteE},
     {memToRegM,memWriteM,regWriteM});
-    flopr #(32) r1M(clk,rst,srcb2E,writeDataM);  //Á¬½Óµ½Êý¾Ý´æ´¢Æ÷µÄÐ´Êý¾Ý¶Ë¿Ú
-    flopr #(32) r2M(clk,rst,ALUOutE,ALUOutM);   //Á¬½Óµ½Êý¾Ý´æ´¢Æ÷µÄÐ´Êý¾ÝµØÖ·¶Ë¿Ú
+    flopr #(32) r1M(clk,rst,srcb2E,writeDataM);  //ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ý¶Ë¿ï¿½
+    flopr #(32) r2M(clk,rst,ALUOutE,ALUOutM);   //ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Ýµï¿½Ö·ï¿½Ë¿ï¿½
     flopr #(5) r3M(clk,rst,writeRegE,writeRegM); 
   
     //write back stage
@@ -227,6 +229,6 @@ module dataPath(
     flopr #(32) r2W(clk,rst,ALUOutM,ALUoutW);
     flopr #(5) r3W(clk,rst,writeRegM,writeRegW); 
 
-    mux2to1 #(32) mux_res(readDataW,ALUoutW,memToRegW,resultW); //Ñ¡ÔñÐ´»Ø¼Ä´æÆ÷µÄÊý¾ÝÀ´Ô´
+    mux2to1 #(32) mux_res(readDataW,ALUoutW,memToRegW,resultW); //Ñ¡ï¿½ï¿½Ð´ï¿½Ø¼Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 
 endmodule

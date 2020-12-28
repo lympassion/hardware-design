@@ -1,24 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 2020/05/09 00:10:51
-// Design Name: 
-// Module Name: top
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module top(
     input clk, rst,
@@ -40,7 +20,7 @@ module top(
         .memRead(data_ram_ena)
     );
 
-    //指令内存
+    //指锟斤拷锟节达拷
     instr_ram instr_ram (
         .clka(~clk),    // input wire clka
         .ena(1'b1),      // input wire ena
@@ -49,10 +29,11 @@ module top(
         .dina(32'b0),    // input wire [31 : 0] dina
         .douta(instr)  // output wire [31 : 0] douta
     );
-    //数据内存
+    //锟斤拷锟斤拷锟节达拷
     data_ram data_ram (
         .clka(~clk),    // input wire clka
         .ena(1'b1),      // input wire ena
+        // .ena(data_ram_ena),      // input wire ena
         .wea({4{memWrite}}),      // input wire [3 : 0] wea
         .addra(dataadr),  // input wire [31 : 0] addra
         .dina(writeData),    // input wire [31 : 0] dina

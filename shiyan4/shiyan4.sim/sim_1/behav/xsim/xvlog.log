@@ -12,7 +12,6 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "D:/github/hardware-design/shiyan4/s
 INFO: [VRFC 10-311] analyzing module controller
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module dataPath
-WARNING: [VRFC 10-3676] redeclaration of ansi port 'memWriteM' is not allowed [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:45]
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/new/eqcmp.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module eqcmp
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/new/flopenr.v" into library xil_defaultlib
@@ -41,5 +40,3 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "D:/github/hardware-design/shiyan4/s
 INFO: [VRFC 10-311] analyzing module top
 INFO: [VRFC 10-2263] Analyzing Verilog file "D:/github/hardware-design/shiyan4/shiyan4.srcs/sim_1/new/testbench.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module testbench
-INFO: [VRFC 10-2263] Analyzing Verilog file "D:/github/hardware-design/shiyan4/shiyan4.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module glbl

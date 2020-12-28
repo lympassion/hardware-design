@@ -3,10 +3,10 @@ Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
 Running: F:/Xilinx/Vivado/2019.1/bin/unwrapped/win64.o/xelab.exe -wto 69f797b1ff894dd290b0b77f2e4f1f9f --incr --debug typical --relax --mt 2 -L blk_mem_gen_v8_4_3 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot testbench_behav xil_defaultlib.testbench xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-3091] actual bit length 3 differs from formal bit length 8 for port 'd' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:217]
-WARNING: [VRFC 10-3091] actual bit length 3 differs from formal bit length 8 for port 'q' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:218]
-WARNING: [VRFC 10-3091] actual bit length 2 differs from formal bit length 8 for port 'd' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:224]
-WARNING: [VRFC 10-3091] actual bit length 2 differs from formal bit length 8 for port 'q' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:225]
+WARNING: [VRFC 10-3091] actual bit length 3 differs from formal bit length 8 for port 'd' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:219]
+WARNING: [VRFC 10-3091] actual bit length 3 differs from formal bit length 8 for port 'q' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:220]
+WARNING: [VRFC 10-3091] actual bit length 2 differs from formal bit length 8 for port 'd' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:226]
+WARNING: [VRFC 10-3091] actual bit length 2 differs from formal bit length 8 for port 'q' [D:/github/hardware-design/shiyan4/shiyan4.srcs/sources_1/imports/new/dataPath.v:227]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis

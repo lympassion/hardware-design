@@ -22,14 +22,14 @@
 
 module ALU(
     input [31:0] A,
-    input [31:0] B,    //Ĭ�ϵ�32λ����
+    input [31:0] B,    //Ĭ�ϵ�32λ����
     input [2:0] f,
     output reg [31:0] s,
     output overFlow,zero
 );
 
     always@(*)
-    case(f)
+    case(f)  // 需要用到ALU的指令
         3'b000: begin
             s = A & B;
         end
