@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="instr_ram_synth_1" LaunchPart="xc7a100tcsg324-1" LaunchTime="1606969499">
+  <File Type="PA-TCL" Name="instr_ram.tcl"/>
+  <File Type="REPORTS-TCL" Name="instr_ram_reports.tcl"/>
+  <File Type="RDS-RDS" Name="instr_ram.vds"/>
+  <File Type="RDS-DCP" Name="instr_ram.dcp"/>
+  <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/instr_ram">
+    <File Path="$PSRCDIR/sources_1/ip/instr_ram/instr_ram.xci">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../体系结构/实验1 动态分支预测/lab4_pipeline_process/lab4_pipeline_process.srcs/sources_1/ip/instr_ram/instr_ram.xci"/>
+        <Attr Name="ImportTime" Val="1591114971"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/instr_ram.xcix">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="instr_ram"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="BlockSrcs" RelSrcDir="$PSRCDIR/instr_ram">
+    <File Path="$PSRCDIR/sources_1/ip/instr_ram/instr_ram.xci">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../../体系结构/实验1 动态分支预测/lab4_pipeline_process/lab4_pipeline_process.srcs/sources_1/ip/instr_ram/instr_ram.xci"/>
+        <Attr Name="ImportTime" Val="1591114971"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/instr_ram.xcix">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="instr_ram"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>
