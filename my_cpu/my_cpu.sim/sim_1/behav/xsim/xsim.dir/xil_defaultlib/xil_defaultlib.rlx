@@ -1,0 +1,20 @@
+0.6
+2019.1
+May 24 2019
+15:06:07
+D:/practice_code/subject/hardware_design/my_cpu/my_cpu.sim/sim_1/behav/xsim/glbl.v,1558713910,verilog,,,,glbl,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,1609181358,verilog,,,,,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/ex.v,1609220924,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/ex_mem.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,ex,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/ex_mem.v,1609222806,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/id.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,ex_mem,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/id.v,1609218644,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/id_ex.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,id,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/id_ex.v,1609220023,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/if_id.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,id_ex,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/if_id.v,1609179815,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/mem.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,if_id,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/inst_rom.v,1609230262,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/mem.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,inst_rom,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/mem.v,1609223153,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/mem_wb.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,mem,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/mem_wb.v,1609223215,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/openmips.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,mem_wb,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/openmips.v,1609225184,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/openmips_min_sopc.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,openmips,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/openmips_min_sopc.v,1609233111,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/pc_reg.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,openmips_min_sopc,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/openmips_min_sopc_tb.v,1609228293,verilog,,,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,openmips_min_sopc_tb,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/pc_reg.v,1609181493,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/regfile.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,pc_reg,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/code/regfile.v,1609216967,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/openmips_min_sopc_tb.v,D:/practice_code/subject/hardware_design/my_cpu/source/code/defines.v,regfile,,,,,,,,
+D:/practice_code/subject/hardware_design/my_cpu/source/ip/inst_mem/sim/inst_mem.v,1609235898,verilog,,D:/practice_code/subject/hardware_design/my_cpu/source/code/ex.v,,inst_mem,,,,,,,,
