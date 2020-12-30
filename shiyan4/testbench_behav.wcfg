@@ -11,8 +11,8 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="669995616fs"></ZoomStartTime>
-      <ZoomEndTime time="670000877fs"></ZoomEndTime>
+      <ZoomStartTime time="464500000fs"></ZoomStartTime>
+      <ZoomEndTime time="711100001fs"></ZoomEndTime>
       <Cursor1Time time="670000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
@@ -43,6 +43,7 @@
    <wvobject fp_name="/testbench/dataadr" type="array">
       <obj_property name="ElementShortName">dataadr[31:0]</obj_property>
       <obj_property name="ObjectShortName">dataadr[31:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/testbench/memwrite" type="logic">
       <obj_property name="ElementShortName">memwrite</obj_property>

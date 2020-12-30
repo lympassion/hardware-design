@@ -68,7 +68,7 @@ module openmips_min_sopc(
 	// );
 
 
-    // 这里再shengchengip核时一定要勾选generate 32bits interface 否则读出来的指令是间隔为4的
+    // 这里再生成ip核时一定要勾选generate 32bits interface 否则读出来的指令是间隔为4的
     inst_mem inst_mem0 (
         .clka(clk),    // input wire clka
         .ena(rom_ce),      // input wire ena
