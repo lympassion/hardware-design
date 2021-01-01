@@ -68,16 +68,25 @@
 `define EXE_MOVZ  6'b001010  //
 
 // 14条算术运算指令
-`define EXE_AND  6'b100100  
-`define EXE_OR   6'b100101
-`define EXE_XOR 6'b100110
-`define EXE_NOR 6'b100111
-`define EXE_ANDI 6'b001100
-`define EXE_ORI  6'b001101
-`define EXE_XORI 6'b001110
-`define EXE_LUI 6'b001111
+`define EXE_ADD    6'b100000  
+`define EXE_ADDU   6'b100001
+`define EXE_SUB    6'b100010
+`define EXE_SUBU   6'b100011
+`define EXE_SLT    6'b101010
 
+`define EXE_SLTU   6'b101011
+`define EXE_MULT   6'b011000
+`define EXE_MULTU  6'b011001
+`define EXE_DIV    6'b011010  
+`define EXE_DIVU   6'b011011
 
+`define EXE_ADDI   6'b001000
+`define EXE_ADDIU   6'b001001
+`define EXE_SLTI   6'b001010  //这里的功能吗虽然和movz相同,但是movz属于special指令,在译码的时候会区分开来
+`define EXE_SLTIU  6'b001011
+
+`define EXE_DIV  6'b011010
+`define EXE_DIVU  6'b011011
 
 
 
@@ -110,15 +119,39 @@
 `define EXE_MOVZ_OP  8'b00001010
 `define EXE_MOVN_OP  8'b00001011
 
+// 14条算术运算指令
+`define EXE_ADD_OP  8'b00100000
+`define EXE_ADDU_OP  8'b00100001
+`define EXE_SUB_OP  8'b00100010
+`define EXE_SUBU_OP  8'b00100011
+`define EXE_SLT_OP  8'b00101010
+
+`define EXE_SLTU_OP  8'b00101011
+`define EXE_MULT_OP  8'b00011000
+`define EXE_MULTU_OP  8'b00011001
+`define EXE_DIV_OP  8'b00011010
+`define EXE_DIVU_OP  8'b00011011
+
+`define EXE_ADDI_OP  8'b01010101
+`define EXE_ADDIU_OP  8'b01010110
+`define EXE_SLTI_OP  8'b01010111
+`define EXE_SLTIU_OP  8'b01011000 
+// `define EXE_CLZ_OP  8'b10110000
+// `define EXE_CLO_OP  8'b10110001
+// `define EXE_MUL_OP  8'b10101001
+
 
 
 //AluSel 对应着现在已经实现的指令类型
 `define EXE_RES_LOGIC 3'b001   
 `define EXE_RES_SHIFT 3'b010  
-// `define EXE_RES_HILO 3'b010  // 这个地方我的天
+// `define EXE_RES_HILO 3'b010  // 这个地方重名
 `define EXE_RES_HILO 3'b011
+`define EXE_RES_ARITHMETIC 3'b100	
+`define EXE_RES_MUL 3'b101
 
-`define EXE_RES_ZERO 3'b111 //movn movz两条指令
+
+// `define EXE_RES_ZERO 3'b111 //movn movz两条指令
 `define EXE_RES_NOP 3'b000
 
 
@@ -138,3 +171,13 @@
 `define RegNum 32                // 寄存器堆数量
 `define RegNumLog2 5
 `define NOPRegAddr 5'b00000
+
+// div模块
+`define DivFree 2'b00
+`define DivByZero 2'b01
+`define DivOn 2'b10
+`define DivEnd 2'b11
+`define DivResultReady 1'b1
+`define DivResultNotReady 1'b0
+`define DivStart 1'b1
+`define DivStop 1'b0

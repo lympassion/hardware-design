@@ -1,35 +1,3 @@
-//////////////////////////////////////////////////////////////////////
-////                                                              ////
-//// Copyright (C) 2014 leishangwen@163.com                       ////
-////                                                              ////
-//// This source file may be used and distributed without         ////
-//// restriction provided that this copyright statement is not    ////
-//// removed from the file and that any derivative work contains  ////
-//// the original copyright notice and the associated disclaimer. ////
-////                                                              ////
-//// This source file is free software; you can redistribute it   ////
-//// and/or modify it under the terms of the GNU Lesser General   ////
-//// Public License as published by the Free Software Foundation; ////
-//// either version 2.1 of the License, or (at your option) any   ////
-//// later version.                                               ////
-////                                                              ////
-//// This source is distributed in the hope that it will be       ////
-//// useful, but WITHOUT ANY WARRANTY; without even the implied   ////
-//// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR      ////
-//// PURPOSE.  See the GNU Lesser General Public License for more ////
-//// details.                                                     ////
-////                                                              ////
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-// Module:  openmips
-// File:    openmips.v
-// Author:  Lei Silei
-// E-mail:  leishangwen@163.com
-// Description: OpenMIPS处理器的顶层文件
-// Revision: 1.0
-//////////////////////////////////////////////////////////////////////
-
 `include "defines.v"
 
 module openmips(
@@ -119,12 +87,26 @@ module openmips(
 	//连接回写阶段HELO与执行阶段
 	wire[`RegBus] hi_o;
 	wire[`RegBus] lo_o;
+
+	// ctrl 
+	wire[5:0] stall;
+	wire      stallreq_from_id_i;
+	wire      stallreq_from_ex_i;
+
+	//div
+	wire[`DoubleRegBus] div_result_i; // 64位
+	wire          div_ready_i;
+	wire          signed_div_i;
+	wire[`RegBus] div_opdata1_i;
+	wire[`RegBus] div_opdata2_i;
+	wire          div_start_i;
   
   //pc_reg例化
 	pc_reg pc_reg0(
 		.clk(clk),
 		.rst(rst),
 		.pc(pc),
+		.stall(stall),
 		.ce(rom_ce_o)	
 	);
 	
@@ -157,11 +139,34 @@ module openmips(
         .lo_o(lo_o)
 	);
 
+	// div模块
+	div div0(
+		.clk(clk),
+		.rst(rst),
+	
+		.signed_div_i(signed_div_i),
+		.opdata1_i(div_opdata1_i),
+		.opdata2_i(div_opdata2_i),
+		.start_i(div_start_i),
+		.annul_i(1'b0),
+	
+		.result_o(div_result_i),
+		.ready_o(div_ready_i)
+	);
+
+	ctrl ctrl0(
+		.rst(rst),
+		.stallreq_from_id(stallreq_from_id_i),
+		.stallreq_from_ex(stallreq_from_ex_i),
+		.stall(stall)       	
+	);
+
   //IF/ID模块例化
 	if_id if_id0(
 		.clk(clk),
 		.rst(rst),
 		.if_pc(pc),
+		.stall(stall),
 		.if_inst(rom_data_i),
 		.id_pc(id_pc_i),
 		.id_inst(id_inst_i)      	
@@ -172,6 +177,8 @@ module openmips(
 		.rst(rst),
 		.pc_i(id_pc_i),
 		.inst_i(id_inst_i),
+
+		.stallreq(stallreq_from_id_i),
 
 		//处于执行阶段的指令要写入的目的寄存器信息
 		.ex_wreg_i(ex_wreg_o),
@@ -216,6 +223,8 @@ module openmips(
 		.id_reg2(id_reg2_o),
 		.id_wd(id_wd_o),
 		.id_wreg(id_wreg_o),
+
+		.stall(stall),
 	
 		//传递到执行阶段EX模块的信息
 		.ex_aluop(ex_aluop_i),
@@ -229,7 +238,7 @@ module openmips(
 	//EX模块
 	ex ex0(
 		.rst(rst),
-	
+
 		//送到执行阶段EX模块的信息
 		.aluop_i(ex_aluop_i),
 		.alusel_i(ex_alusel_i),
@@ -251,6 +260,15 @@ module openmips(
 		.hi_o(ex_hi_o),  // 写入hi的值 
 		.lo_o(ex_lo_o),  // 写入lo的值
 
+		//div
+		.div_result_i(div_result_i),
+		.div_ready_i(div_ready_i),
+		.stallreq(stallreq_from_ex_i),
+		.div_opdata1_o(div_opdata1_i),
+		.div_opdata2_o(div_opdata2_i),
+		.div_start_o(div_start_i),
+		.signed_div_o(signed_div_i),
+
 	  	//EX模块的输出到EX/MEM模块信息
 		.wd_o(ex_wd_o),
 		.wreg_o(ex_wreg_o),
@@ -267,6 +285,8 @@ module openmips(
 		.ex_wd(ex_wd_o),
 		.ex_wreg(ex_wreg_o),
 		.ex_wdata(ex_wdata_o),
+
+		.stall(stall),
 	
 		// Hilo寄存器添加的接口
 		.ex_whilo(ex_whilo_o),
@@ -316,6 +336,8 @@ module openmips(
 		.mem_wd(mem_wd_o),
 		.mem_wreg(mem_wreg_o),
 		.mem_wdata(mem_wdata_o),
+
+		.stall(stall),
 
 		// Hilo寄存器添加的接口
 		.mem_whilo(mem_whilo_o),

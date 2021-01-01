@@ -1,35 +1,3 @@
-//////////////////////////////////////////////////////////////////////
-////                                                              ////
-//// Copyright (C) 2014 leishangwen@163.com                       ////
-////                                                              ////
-//// This source file may be used and distributed without         ////
-//// restriction provided that this copyright statement is not    ////
-//// removed from the file and that any derivative work contains  ////
-//// the original copyright notice and the associated disclaimer. ////
-////                                                              ////
-//// This source file is free software; you can redistribute it   ////
-//// and/or modify it under the terms of the GNU Lesser General   ////
-//// Public License as published by the Free Software Foundation; ////
-//// either version 2.1 of the License, or (at your option) any   ////
-//// later version.                                               ////
-////                                                              ////
-//// This source is distributed in the hope that it will be       ////
-//// useful, but WITHOUT ANY WARRANTY; without even the implied   ////
-//// warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR      ////
-//// PURPOSE.  See the GNU Lesser General Public License for more ////
-//// details.                                                     ////
-////                                                              ////
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////
-// Module:  ex
-// File:    ex.v
-// Author:  Lei Silei
-// E-mail:  leishangwen@163.com
-// Description: 执行阶段
-// Revision: 1.0
-//////////////////////////////////////////////////////////////////////
-
 `include "defines.v"
 
 module ex(
@@ -58,6 +26,16 @@ module ex(
 	output reg[`RegBus]			  hi_o,  // 写入hi的值 
 	output reg[`RegBus]			  lo_o,  // 写入lo的值
 
+	//除法模块添加的信号
+	input wire[`DoubleRegBus]     div_result_i,
+	input wire                    div_ready_i,
+	output reg                    stallreq,
+	output reg[`RegBus]           div_opdata1_o,
+	output reg[`RegBus]           div_opdata2_o,
+	output reg                    div_start_o,
+	output reg                    signed_div_o,
+
+
 
 	output reg[`RegAddrBus]       wd_o,
 	output reg                    wreg_o,
@@ -68,9 +46,32 @@ module ex(
 	reg[`RegBus] logicres;  // 保留逻辑运算结果
 	reg[`RegBus] shiftres;  // 保留移位运算结果
 	reg[`RegBus] Hilores;  // 保留数据移动指令(HILO)运算结果
-	reg[`RegBus] shiftzerores;  // 保留movn和movz两条指令的结果
+	reg[`RegBus] arithmetic_sum_res;  // 保留加减运算结果
+	reg[`DoubleRegBus] arithmetic_mult_res;;  // 保留乘法运算结果
+
+	// reg[`RegBus] shiftzerores;  // 保留movn和movz两条指令的结果
 	reg[`RegBus] HI;
 	reg[`RegBus] LO;
+
+
+	// arithmetic
+	//add,sub
+	wire[`RegBus]        reg2_i_subtoadd;  // 减法转为加法
+	wire[`RegBus]        sumres;     // 加减得到的结果
+	wire                 ov_flow;    // 是否溢出(加减)
+	// slt
+	wire[`RegBus]        reg1_lt_reg2;  
+	//乘法 参考ppt
+	wire[`RegBus]        mult_1;
+	wire[`RegBus]        mult_2;
+	wire[`DoubleRegBus]  mult_res;
+	// 除法
+	reg                  stallreq_for_div;
+
+
+	// reg[`RegBus]         sltres;     // 加减得到的结果
+	
+
 
 	// 逻辑运算
 	always @ (*) begin
@@ -126,7 +127,7 @@ module ex(
 	end   
 
 
-	// HILO指令
+	// 读Hilo
 	always @ (*) begin
 		if(rst == `RstEnable) begin
 			shiftres <= `ZeroWord;
@@ -175,6 +176,12 @@ module ex(
 				// 	lo_o <= reg1_i;
 				// 	// Hilores <= lo_o;
 				// end
+				`EXE_MOVZ_OP:		begin
+					Hilores <= reg1_i;
+				end
+				`EXE_MOVN_OP:		begin
+					Hilores <= reg1_i;
+				end
 				default:				begin
 					Hilores <= `ZeroWord;
 				end
@@ -223,11 +230,21 @@ module ex(
 	//    endcase
 	//   end
 	// end	 
+
+	// 写Hilo
 	always @ (*) begin
 		if(rst == `RstEnable) begin
 			whilo_o <= `WriteDisable;
 			hi_o <= `ZeroWord;
 			lo_o <= `ZeroWord;		
+		end else if ((aluop_i == `EXE_MULT_OP) || (aluop_i == `EXE_MULTU_OP)) begin
+			whilo_o <= `WriteEnable;
+			hi_o <= arithmetic_mult_res[63:32];
+			lo_o <= arithmetic_mult_res[31:0];
+		end  else if((aluop_i == `EXE_DIV_OP) || (aluop_i == `EXE_DIVU_OP)) begin
+			whilo_o <= `WriteEnable;
+			hi_o <= div_result_i[63:32];
+			lo_o <= div_result_i[31:0];							
 		end else if(aluop_i == `EXE_MTHI_OP) begin  //hilo_reg.v里面要写都写,所以这里要这样处理
 			whilo_o <= `WriteEnable;
 			hi_o <= reg1_i;  // 这里首先通过reg1_i得到rs的值
@@ -245,30 +262,148 @@ module ex(
 
 
 	// movn和movz两条指令
+	// always @ (*) begin
+	// 	if(rst == `RstEnable) begin
+	// 		shiftzerores <= `ZeroWord;
+	// 	end else begin
+	// 		// whilo_o <= `WriteDisable; 
+	// 		case (aluop_i)
+	// 			`EXE_MOVN_OP: begin
+	// 				shiftzerores <= reg1_i;
+	// 			end 
+	// 			`EXE_MOVZ_OP: begin
+	// 				shiftzerores <= reg1_i;
+	// 			end
+	// 			default:				begin
+	// 				shiftzerores <= reg1_i;
+	// 			end
+	// 		endcase
+	// 	end    
+	// end     
+
+
+	// arithmetic
+	// 加减
+	assign reg2_i_subtoadd = ((aluop_i==`EXE_SUB_OP) || (aluop_i==`EXE_SUBU_OP) ||(aluop_i==`EXE_SLT_OP))
+							 ? (~(reg2_i)+1) : reg2_i; //这几条指令对应的sumres是减法运算的结果
+	assign sumres = reg1_i + reg2_i_subtoadd;
+	// 溢出情况,reg1_i与reg2_isubtoadd符号相同且运算结果相反
+	assign ov_flow = ((reg1_i[31] == reg2_i_subtoadd[31]) && (sumres[31] != reg1_i[31])) &&
+						((aluop_i == `EXE_ADD_OP) || (aluop_i == `EXE_ADDI_OP) || //可能产生溢出的指令
+	      				(aluop_i == `EXE_SUB_OP));
+
+	// slt
+	assign reg1_lt_reg2 = ((aluop_i == `EXE_SLT_OP)) ?  // 
+						((reg1_i[31] && !reg2_i[31]) || // 负数 正数
+						(!reg1_i[31] && !reg2_i[31] && sumres[31])|| //同号的时候做减法就不用考虑溢出
+						(reg1_i[31] && reg2_i[31] && sumres[31]))
+						:	(reg1_i < reg2_i);
+	//mult,multu 
+	assign mult_1 = ((aluop_i == `EXE_MULT_OP) && reg1_i[31]) ? (~reg1_i + 1) : reg1_i;
+	assign mult_2 = ((aluop_i == `EXE_MULT_OP) && reg2_i[31]) ? (~reg2_i + 1) : reg2_i;
+	// 同号相乘,无符号乘法不需要修正
+	assign mult_res = ((aluop_i == `EXE_MULT_OP) && (reg1_i[31] ^ reg2_i[31])) ? 
+						(~(mult_1 * mult_2)+1) : mult_1 * mult_2; 
+	// 
 	always @ (*) begin
 		if(rst == `RstEnable) begin
-			shiftzerores <= `ZeroWord;
+			arithmetic_mult_res <= `ZeroWord;
+			arithmetic_sum_res <= `ZeroWord;
 		end else begin
-			// whilo_o <= `WriteDisable; 
 			case (aluop_i)
-				`EXE_MOVN_OP: begin
-					shiftzerores <= reg1_i;
-				end 
-				`EXE_MOVZ_OP: begin
-					shiftzerores <= reg1_i;
+				`EXE_ADD_OP, `EXE_ADDI_OP, `EXE_ADDU_OP, `EXE_ADDIU_OP, `EXE_SUB_OP, `EXE_SUBU_OP: begin
+					arithmetic_sum_res <= sumres;
+				end
+				`EXE_SLT_OP, `EXE_SLTU_OP:begin
+					arithmetic_sum_res <= reg1_lt_reg2;
+				end
+				`EXE_MULT_OP, `EXE_MULTU_OP:begin
+					arithmetic_mult_res <= mult_res;
 				end
 				default:				begin
-					shiftzerores <= reg1_i;
+					arithmetic_mult_res <= `ZeroWord;
+					arithmetic_sum_res <= `ZeroWord;
 				end
 			endcase
 		end    
-	end        
+	end
+	
+	always @ (*) begin
+    	stallreq = stallreq_for_div;
+  	end
+
+   //DIV、DIVU指令	
+	always @ (*) begin
+		if(rst == `RstEnable) begin
+			stallreq_for_div <= `NoStop;
+	   		div_opdata1_o <= `ZeroWord;
+			div_opdata2_o <= `ZeroWord;
+			div_start_o <= `DivStop;
+			signed_div_o <= 1'b0;
+		end else begin
+			stallreq_for_div <= `NoStop;
+	    	div_opdata1_o <= `ZeroWord;
+			div_opdata2_o <= `ZeroWord;
+			div_start_o <= `DivStop;
+			signed_div_o <= 1'b0;	
+			case (aluop_i) 
+				`EXE_DIV_OP:		begin
+					if(div_ready_i == `DivResultNotReady) begin  // not----0
+	    				div_opdata1_o <= reg1_i;
+						div_opdata2_o <= reg2_i;
+						div_start_o <= `DivStart;  // 1
+						signed_div_o <= 1'b1;
+						stallreq_for_div <= `Stop;
+					end else if(div_ready_i == `DivResultReady) begin
+	    			div_opdata1_o <= reg1_i;
+						div_opdata2_o <= reg2_i;
+						div_start_o <= `DivStop;  // 0
+						signed_div_o <= 1'b1;
+						stallreq_for_div <= `NoStop;
+					end else begin						
+	    			div_opdata1_o <= `ZeroWord;
+						div_opdata2_o <= `ZeroWord;
+						div_start_o <= `DivStop;
+						signed_div_o <= 1'b0;
+						stallreq_for_div <= `NoStop;
+					end					
+				end
+				`EXE_DIVU_OP:		begin
+					if(div_ready_i == `DivResultNotReady) begin
+	    			div_opdata1_o <= reg1_i;
+						div_opdata2_o <= reg2_i;
+						div_start_o <= `DivStart;
+						signed_div_o <= 1'b0;
+						stallreq_for_div <= `Stop;
+					end else if(div_ready_i == `DivResultReady) begin
+	    			div_opdata1_o <= reg1_i;
+						div_opdata2_o <= reg2_i;
+						div_start_o <= `DivStop;
+						signed_div_o <= 1'b0;
+						stallreq_for_div <= `NoStop;
+					end else begin						
+	    			div_opdata1_o <= `ZeroWord;
+						div_opdata2_o <= `ZeroWord;
+						div_start_o <= `DivStop;
+						signed_div_o <= 1'b0;
+						stallreq_for_div <= `NoStop;
+					end					
+				end
+				default: begin
+				end
+			endcase
+		end
+	end	
 
 
 	// 这一模块处理写
 	always @ (*) begin
-		wd_o <= wd_i;	 	 	
-		wreg_o <= wreg_i;
+		wd_o <= wd_i;
+		if(ov_flow)begin // 加法,减法放到一起, addi,add,sub引起的溢出处理方法是不将结果写入到寄存器中
+			wreg_o <= `WriteDisable;
+		end	 else begin
+			wreg_o <= wreg_i;
+		end	 	
 		case ( alusel_i ) 
 		`EXE_RES_LOGIC:		begin
 			wdata_o <= logicres;
@@ -279,9 +414,15 @@ module ex(
 		`EXE_RES_HILO:		begin
 			wdata_o <= Hilores;
 		end
-		`EXE_RES_ZERO:		begin  // 增加的movn和movz
-			wdata_o <= shiftzerores;
+		`EXE_RES_ARITHMETIC:begin
+			wdata_o <= arithmetic_sum_res;
 		end
+		// `EXE_RES_MUL: begin
+		// 	wdata_o <= arithmetic_mult_res[31:0];
+		// end
+		// `EXE_RES_ZERO:		begin  // 增加的movn和movz
+		// 	wdata_o <= shiftzerores;
+		// end
 		default:					begin
 			wdata_o <= `ZeroWord;
 		end
