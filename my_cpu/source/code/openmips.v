@@ -8,7 +8,15 @@ module openmips(
  
 	input wire[`RegBus]           rom_data_i,
 	output wire[`RegBus]           rom_addr_o,
-	output wire                    rom_ce_o
+	output wire                    rom_ce_o,
+
+	//连接data_ram
+	input wire[`RegBus]           ram_data_i,
+	output wire[`RegBus]           ram_addr_o,
+	output wire[`RegBus]           ram_data_o,
+	output wire                    ram_we_o,
+	output wire[3:0]               ram_sel_o,
+	output wire[3:0]               ram_ce_o
 	
 );
 
@@ -100,11 +108,26 @@ module openmips(
 	wire[`RegBus] div_opdata1_i;
 	wire[`RegBus] div_opdata2_i;
 	wire          div_start_i;
+
+	// 分支跳转
+	wire branch_flag;
+	wire[`InstAddrBus]    branch_target_address;
+	wire                  id_is_in_delayslot;  //这条在译码的时候发现为延迟槽指令，is_in_delayslot为true
+	wire                  next_inst_in_delayslot; // 现在处于译码的指令是分支跳转指令并且满足跳转条件     
+	wire[`RegBus]         id_link_address;  // 需要保存的返回地址
+	wire                  id_ex_is_in_delayslot;
+	wire[`RegBus]         ex_link_address;
+	wire                  ex_is_in_delayslot;  // 这个暂时没有用
   
   //pc_reg例化
 	pc_reg pc_reg0(
 		.clk(clk),
 		.rst(rst),
+
+		// 分支跳转指令增加的接口
+		.branch_flag_i(branch_flag),
+		.branch_target_address_i(branch_target_address),
+
 		.pc(pc),
 		.stall(stall),
 		.ce(rom_ce_o)	
@@ -180,6 +203,14 @@ module openmips(
 
 		.stallreq(stallreq_from_id_i),
 
+		// 分支跳转指令增加的接口
+		.is_in_delayslot_i(id_is_in_delayslot),  //这条在译码的时候发现为延迟槽指令，is_in_delayslot为true
+		.next_inst_in_delayslot_o(next_inst_in_delayslot), // 现在处于译码的指令是分支跳转指令并且满足跳转条件
+		.branch_flag_o(branch_flag),
+		.branch_target_address_o(branch_target_address),       
+		.link_addr_o(id_link_address),  // 需要保存的返回地址
+		.is_in_delayslot_o(id_ex_is_in_delayslot),
+
 		//处于执行阶段的指令要写入的目的寄存器信息
 		.ex_wreg_i(ex_wreg_o),
 		.ex_wdata_i(ex_wdata_o),
@@ -199,7 +230,7 @@ module openmips(
 
 		.reg1_addr_o(reg1_addr),
 		.reg2_addr_o(reg2_addr), 
-	  
+	  	
 		//送到ID/EX模块的信息
 		.aluop_o(id_aluop_o),
 		.alusel_o(id_alusel_o),
@@ -215,6 +246,14 @@ module openmips(
 	id_ex id_ex0(
 		.clk(clk),
 		.rst(rst),
+
+		.id_link_address(id_link_address),
+		.id_is_in_delayslot(id_is_in_delayslot),
+		.next_inst_in_delayslot_i(next_inst_in_delayslot),	
+		.ex_link_address(ex_link_address),
+		.ex_is_in_delayslot(ex_is_in_delayslot),
+		.is_in_delayslot_o(id_ex_is_in_delayslot),
+		
 		
 		//从译码阶段ID模块传递的信息
 		.id_aluop(id_aluop_o),
@@ -246,6 +285,10 @@ module openmips(
 		.reg2_i(ex_reg2_i),
 		.wd_i(ex_wd_i),
 		.wreg_i(ex_wreg_i),
+
+		//是否转移、以及link address
+		.link_address_i(ex_link_address),
+		.is_in_delayslot_i(ex_is_in_delayslot),  // 这个暂时没有用
 
 		// 因为数据移动指令(HILO)而添加的接口
 		.hi_i(hi_o),  // 对应Hilo寄存器的值
@@ -324,7 +367,15 @@ module openmips(
 		//送到MEM/WB模块的信息
 		.wd_o(mem_wd_o),
 		.wreg_o(mem_wreg_o),
-		.wdata_o(mem_wdata_o)
+		.wdata_o(mem_wdata_o),
+
+		//memory与mem相连
+		.mem_data_i(ram_data_i),
+		.mem_addr_o(ram_addr_o),
+		.mem_we_o(ram_we_o),
+		.mem_sel_o(ram_sel_o),
+		.mem_data_o(ram_data_o),
+		.mem_ce_o(ram_ce_o)
 	);
 
   //MEM/WB模块

@@ -11,6 +11,14 @@ module ex_mem(
 	input wire                    ex_wreg,
 	input wire[`RegBus]					 ex_wdata, 	
 
+	//为实现加载、访存指令而添加
+ 	input wire[`AluOpBus]        ex_aluop,
+	input wire[`RegBus]          ex_mem_addr,
+	input wire[`RegBus]          ex_reg2,
+	output reg[`AluOpBus]        mem_aluop,
+	output reg[`RegBus]          mem_mem_addr,
+	output reg[`RegBus]          mem_reg2,
+
 	// Hilo寄存器添加的接口
 	input wire                    ex_whilo,
 	input wire[`RegBus]           ex_hi,
@@ -38,6 +46,11 @@ module ex_mem(
 			mem_hi <= `ZeroWord;
 			mem_lo <= `ZeroWord;  
 
+			// 数据加载
+			mem_aluop <= 6'b0;
+			mem_mem_addr <= `ZeroWord;
+			mem_reg2 <= `ZeroWord;
+
 		end 
 		else if(stall[3] == 0)begin
 			mem_wd <= ex_wd;
@@ -46,9 +59,14 @@ module ex_mem(
 
 			mem_whilo <= ex_whilo;
 			mem_hi <= ex_hi;
-			mem_lo <= ex_lo;		
-		end    //if
-	end      //always
+			mem_lo <= ex_lo;	
+
+			// 数据加载
+			mem_aluop <= ex_aluop;
+			mem_mem_addr <= ex_mem_addr;
+			mem_reg2 <= ex_reg2;	
+		end    
+	end     
 			
 
 endmodule

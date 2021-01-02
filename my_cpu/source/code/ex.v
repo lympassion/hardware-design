@@ -12,6 +12,18 @@ module ex(
 	input wire[`RegAddrBus]       wd_i,    // 写到寄存器的地址
 	input wire                    wreg_i,  // 是否写
 
+	//是否转移、以及link address
+	input wire[`RegBus]           link_address_i,
+	input wire                    is_in_delayslot_i,  // 这个暂时没有用
+
+	// 数据加载
+	input wire[`RegBus]           inst_i,
+	// output wire[`AluOpBus]        aluop_o,
+	// output wire[`RegBus]          mem_addr_o,
+	// output wire[`RegBus]          reg2_o,
+	output reg[`AluOpBus]        aluop_o,
+	output reg[`RegBus]          mem_addr_o,
+	output reg[`RegBus]          reg2_o,
 
 	// 因为数据移动指令(HILO)而添加的接口
 	input wire[`RegBus]			  hi_i,  // 对应Hilo寄存器的值
@@ -71,6 +83,21 @@ module ex(
 
 	// reg[`RegBus]         sltres;     // 加减得到的结果
 	
+
+	// 数据加载
+	always @ (*) begin
+		if(rst == `RstEnable) begin
+			aluop_o <= 6'b0;
+			reg2_o <= `ZeroWord;
+			mem_addr_o <= `ZeroWord;
+			// inst_o <= 0;
+		end else begin
+		 	aluop_o <= aluop_i;
+			reg2_o <= reg2_i;
+			mem_addr_o <= reg1_i + {{16{inst_i[15]}},inst_i[15:0]};  // load_store addr
+	  end
+	end
+ 
 
 
 	// 逻辑运算
@@ -395,6 +422,31 @@ module ex(
 		end
 	end	
 
+	// 分支跳转
+	always @ (*) begin
+		if(rst == `RstEnable) begin
+			logicres <= `ZeroWord;
+		end else begin
+			case (aluop_i)
+				`EXE_AND_OP: begin
+					logicres <= reg1_i & reg2_i;
+				end
+				`EXE_OR_OP:			begin
+					logicres <= reg1_i | reg2_i;
+				end
+				`EXE_XOR_OP:			begin
+					logicres <= reg1_i ^ reg2_i;
+				end
+				`EXE_NOR_OP:			begin
+					logicres <= ~(reg1_i | reg2_i);
+				end
+				default:				begin
+					logicres <= `ZeroWord;
+				end
+			endcase
+		end    
+	end
+
 
 	// 这一模块处理写
 	always @ (*) begin
@@ -417,6 +469,9 @@ module ex(
 		`EXE_RES_ARITHMETIC:begin
 			wdata_o <= arithmetic_sum_res;
 		end
+		`EXE_RES_JUMP_BRANCH:	begin
+	 		wdata_o <= link_address_i;
+	 	end
 		// `EXE_RES_MUL: begin
 		// 	wdata_o <= arithmetic_mult_res[31:0];
 		// end

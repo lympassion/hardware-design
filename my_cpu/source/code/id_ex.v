@@ -14,6 +14,18 @@ module id_ex(
 	input wire[`RegBus]           id_reg2,
 	input wire[`RegAddrBus]       id_wd,
 	input wire                    id_wreg,	
+
+	// 分支跳转指令添加的接口
+	input wire[`RegBus]           id_link_address,
+	input wire                    id_is_in_delayslot,
+	input wire                    next_inst_in_delayslot_i,	
+	output reg[`RegBus]           ex_link_address,
+  	output reg                    ex_is_in_delayslot,
+	output reg                    is_in_delayslot_o,
+
+	// 数据加载
+	input wire[`RegBus]           id_inst,		
+	output reg[`RegBus]           ex_inst,	
 	
 	//传递到执行阶段的信息
 	output reg[`AluOpBus]         ex_aluop,
@@ -33,14 +45,25 @@ module id_ex(
 			ex_reg2 <= `ZeroWord;
 			ex_wd <= `NOPRegAddr;
 			ex_wreg <= `WriteDisable;
+
+			ex_is_in_delayslot <= 0;
+			ex_link_address <= `ZeroWord;
+			is_in_delayslot_o <= 0;
+			ex_inst <= `ZeroWord;
 		end else if(stall[2] == `NoStop)begin  // 这里一定要加这个判断条件, 否则这种情况001_111会更新
 			ex_aluop <= id_aluop;
 			ex_alusel <= id_alusel;
 			ex_reg1 <= id_reg1;
 			ex_reg2 <= id_reg2;
 			ex_wd <= id_wd;
-			ex_wreg <= id_wreg;		
+			ex_wreg <= id_wreg;
+
+			ex_is_in_delayslot <= id_is_in_delayslot;
+			ex_link_address <= id_link_address;
+			is_in_delayslot_o <= next_inst_in_delayslot_i;	
+			ex_inst <= 	id_inst;
 		end
 	end
+
 	
 endmodule

@@ -13,7 +13,7 @@
 `define Stop 1'b1
 `define NoStop 1'b0
 `define InDelaySlot 1'b1             // 
-`define NotInDelaySlot 1'b0
+`define NotInDelaySlot 1'b0          // 不是分支槽指令
 `define Branch 1'b1                  // 是否为分支指令
 `define NotBranch 1'b0               
 `define InterruptAssert 1'b1         // 
@@ -29,7 +29,7 @@
 
 // 指令 op位
 `define EXE_SPECIAL_INST 6'b000000  // 包括R型逻辑，R移位,数据移位
-// `define EXE_REGIMM_INST 6'b000001   // 
+`define EXE_REGIMM_INST 6'b000001   // branch 
 `define EXE_HILO_INST 6'b011100
 
 
@@ -89,6 +89,32 @@
 `define EXE_DIVU  6'b011011
 
 
+// 分支跳转指令
+`define EXE_J  6'b000010
+`define EXE_JAL  6'b000011
+`define EXE_JALR  6'b001001
+`define EXE_JR  6'b001000
+`define EXE_BEQ  6'b000100
+`define EXE_BGEZ  5'b00001
+`define EXE_BGEZAL  5'b10001
+`define EXE_BGTZ  6'b000111
+`define EXE_BLEZ  6'b000110
+`define EXE_BLTZ  5'b00000
+`define EXE_BLTZAL  5'b10000
+`define EXE_BNE  6'b000101
+
+
+// 数据加载指令
+`define EXE_LB  6'b100000
+`define EXE_LBU  6'b100100
+`define EXE_LH  6'b100001
+`define EXE_LHU  6'b100101
+`define EXE_LW  6'b100011
+`define EXE_SB  6'b101000
+`define EXE_SH  6'b101001
+`define EXE_SW  6'b101011
+
+
 
 //AluOp 对于special，需要知道运算的子类型
 // 8条逻辑指令
@@ -141,6 +167,32 @@
 // `define EXE_MUL_OP  8'b10101001
 
 
+// 分支跳转指令
+`define EXE_J_OP  8'b01001111
+`define EXE_JAL_OP  8'b01010000
+`define EXE_JALR_OP  8'b00001001
+`define EXE_JR_OP  8'b00001000
+`define EXE_BEQ_OP  8'b01010001
+`define EXE_BGEZ_OP  8'b01000001
+`define EXE_BGEZAL_OP  8'b01001011
+`define EXE_BGTZ_OP  8'b01010100
+`define EXE_BLEZ_OP  8'b01010011
+`define EXE_BLTZ_OP  8'b01000000
+`define EXE_BLTZAL_OP  8'b01001010
+`define EXE_BNE_OP  8'b01010010
+
+// 数据加载
+`define EXE_LB_OP  8'b11100000
+`define EXE_LBU_OP  8'b11100100
+`define EXE_LH_OP  8'b11100001
+`define EXE_LHU_OP  8'b11100101
+`define EXE_LW_OP  8'b11100011
+`define EXE_PREF_OP  8'b11110011
+`define EXE_SB_OP  8'b11101000
+`define EXE_SH_OP  8'b11101001
+`define EXE_SW_OP  8'b11101011
+
+
 
 //AluSel 对应着现在已经实现的指令类型
 `define EXE_RES_LOGIC 3'b001   
@@ -149,6 +201,9 @@
 `define EXE_RES_HILO 3'b011
 `define EXE_RES_ARITHMETIC 3'b100	
 `define EXE_RES_MUL 3'b101
+`define EXE_RES_JUMP_BRANCH 3'b110
+`define EXE_RES_LOAD_STORE 3'b111	
+
 
 
 // `define EXE_RES_ZERO 3'b111 //movn movz两条指令
