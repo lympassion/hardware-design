@@ -1,0 +1,30 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../../../rtl/xilinx_ip/clk_pll" \
+"../../../../../../rtl/xilinx_ip/clk_pll/clk_pll_clk_wiz.v" \
+"../../../../../../rtl/xilinx_ip/clk_pll/clk_pll.v" \
+"../../../../../../rtl/xilinx_ip/data_ram/sim/data_ram.v" \
+"../../../../../../rtl/xilinx_ip/inst_ram/sim/inst_ram.v" \
+"../../../../../../rtl/BRIDGE/bridge_1x2.v" \
+"../../../../../../rtl/CONFREG/confreg.v" \
+"../../../../../../rtl/myCPU/ctrl.v" \
+"../../../../../../rtl/myCPU/div.v" \
+"../../../../../../rtl/myCPU/ex.v" \
+"../../../../../../rtl/myCPU/ex_mem.v" \
+"../../../../../../rtl/myCPU/hilo_reg.v" \
+"../../../../../../rtl/myCPU/id.v" \
+"../../../../../../rtl/myCPU/id_ex.v" \
+"../../../../../../rtl/myCPU/if_id.v" \
+"../../../../../../rtl/myCPU/mem.v" \
+"../../../../../../rtl/myCPU/mem_wb.v" \
+"../../../../../../rtl/myCPU/mmu.v" \
+"../../../../../../rtl/myCPU/openmips.v" \
+"../../../../../../rtl/myCPU/pc_reg.v" \
+"../../../../../../rtl/myCPU/regfile.v" \
+"../../../../../../rtl/soc_lite_top.v" \
+"../../../../../../testbench/mycpu_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

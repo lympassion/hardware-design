@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<Runs Version="1" Minor="0">
+	<Run Id="clk_pll_synth_1" LaunchDir="D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.runs/clk_pll_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Run Id="data_ram_synth_1" LaunchDir="D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.runs/data_ram_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
+	<Parameters>
+		<Parameter Name="runs.monitorLSFJobs" Val="true" Type="bool"/>
+	</Parameters>
+</Runs>
+
