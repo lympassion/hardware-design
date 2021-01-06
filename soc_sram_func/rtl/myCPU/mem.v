@@ -42,6 +42,23 @@ module mem(
 	output reg[4:0]              cp0_reg_write_addr_o,
 	output reg[`RegBus]          cp0_reg_data_o,
 
+	// 内陷特权
+	input wire[31:0]             excepttype_i,
+	input wire                   is_in_delayslot_i,
+	input wire[`RegBus]          cp0_status_i,
+	input wire[`RegBus]          cp0_cause_i,
+	input wire[`RegBus]          cp0_epc_i,
+ 	input wire                    wb_cp0_reg_we,  // 写回阶段对cp0的前推
+	input wire[4:0]               wb_cp0_reg_write_addr,
+	input wire[`RegBus]           wb_cp0_reg_data,
+	output reg[31:0]             excepttype_o,
+	output wire[`RegBus]          cp0_epc_o,
+	output wire                  is_in_delayslot_o,
+
+	input  wire                  pcFalse_i,
+	// badaddr中存的值
+	output reg[`RegBus]           bad_addr_o,
+
 	//送到回写阶段的信息
 	output reg[`RegAddrBus]      wd_o,
 	output reg                   wreg_o,
@@ -54,7 +71,104 @@ module mem(
 	
 	//写使能信号 在always里面 
 	reg mem_we;
-	assign mem_we_o = mem_we ;
+	assign mem_we_o = mem_we & (~(|excepttype_o)) ; // 这里再加入了异常处理之后需要增强判断条件(精确异常)
+
+	//这里再加入了异常处理之后需要增强判断条件(精确异常)
+	//改sel
+	always @(*) begin
+		if((|excepttype_o)==1) begin
+			mem_sel_o <= 4'b0000;
+		end
+		else begin
+			mem_sel_o <= mem_sel_o;
+		end
+	end
+
+	reg[`RegBus]          cp0_status;
+	reg[`RegBus]          cp0_cause;
+	reg[`RegBus]          cp0_epc;
+
+
+
+	// 内陷特权
+	// 分别获取状态寄存器的最新值
+	always @ (*) begin
+		if(rst == `RstEnable) begin
+			cp0_status <= `ZeroWord;
+		end else if((wb_cp0_reg_we == `WriteEnable) && 
+								(wb_cp0_reg_write_addr == `CP0_REG_STATUS ))begin
+			cp0_status <= wb_cp0_reg_data;
+		end else begin
+		  cp0_status <= cp0_status_i;
+		end
+	end
+	
+	always @ (*) begin
+		if(rst == `RstEnable) begin
+			cp0_epc <= `ZeroWord;
+		end else if((wb_cp0_reg_we == `WriteEnable) && 
+								(wb_cp0_reg_write_addr == `CP0_REG_EPC ))begin
+			cp0_epc <= wb_cp0_reg_data;
+		end else begin
+		  cp0_epc <= cp0_epc_i;
+		end
+	end
+
+ 	always @ (*) begin
+		if(rst == `RstEnable) begin
+			cp0_cause <= `ZeroWord;
+		end else if((wb_cp0_reg_we == `WriteEnable) && 
+								(wb_cp0_reg_write_addr == `CP0_REG_CAUSE ))begin
+			cp0_cause[9:8] <= wb_cp0_reg_data[9:8];
+			cp0_cause[22] <= wb_cp0_reg_data[22];
+			cp0_cause[23] <= wb_cp0_reg_data[23];
+		end else begin
+		  cp0_cause <= cp0_cause_i;
+		end
+	end
+	assign cp0_epc_o = cp0_epc;
+	assign is_in_delayslot_o = is_in_delayslot_i;
+	// 给出最终的异常类型
+	always @ (*) begin
+		if(rst == `RstEnable) begin
+			excepttype_o <= `ZeroWord;
+			bad_addr_o   <= `ZeroWord;
+		end else begin
+			excepttype_o <= `ZeroWord;
+			bad_addr_o   <= `ZeroWord;
+			
+			if(mem_pc_o != `ZeroWord) begin
+				if(((cp0_cause[15:8] & (cp0_status[15:8])) != 8'h00) && (cp0_status[1] == 1'b0) && 
+							(cp0_status[0] == 1'b1)) begin
+					excepttype_o <= 32'h00000001;        //interrupt
+				end else if(excepttype_i[8] == 1'b1) begin
+			  		excepttype_o <= 32'h00000008;        //syscall
+				end else if(excepttype_i[9] == 1'b1) begin
+					excepttype_o <= 32'h0000000a;        //inst_invalid
+				end else if(excepttype_i[10] ==1'b1) begin
+					excepttype_o <= 32'h0000000d;        //trap
+				end else if(excepttype_i[11] == 1'b1) begin  //ov
+					excepttype_o <= 32'h0000000c;
+				end else if(excepttype_i[12] == 1'b1) begin  //返回指令
+					excepttype_o <= 32'h0000000e;
+				end else if(excepttype_i[13] == 1'b1) begin  //break指令
+					excepttype_o <= 32'h00000009;
+				end else if(excepttype_i[15] == 1'b1) begin  //badaddr_read_fetch指令
+					excepttype_o <= 32'h00000004;
+					if(pcFalse_i) begin
+						bad_addr_o <= mem_pc_i;
+					end else begin
+						bad_addr_o <= mem_addr_i;
+					end
+				end else if(excepttype_i[14] == 1'b1) begin  //badaddr_write指令
+					excepttype_o <= 32'h00000005;
+					bad_addr_o <= mem_addr_i;
+				end
+			end
+				
+		end
+	end		
+
 
 	always @ (*) begin
 		if(rst == `RstEnable) begin

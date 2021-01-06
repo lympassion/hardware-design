@@ -24,7 +24,7 @@ module regfile(
 
 	reg[`RegBus]  regs[0:`RegNum-1];
 
-	always @ (posedge clk) begin  // 写数�?
+	always @ (negedge clk) begin  // 写数�?
 		if (rst == `RstDisable) begin
 			if((we == `WriteEnable) && (waddr != `RegNumLog2'h0)) begin
 				regs[waddr] <= wdata;

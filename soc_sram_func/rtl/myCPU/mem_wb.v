@@ -32,6 +32,9 @@ module mem_wb(
 	output reg[`RegBus]          wb_cp0_reg_data,
 	output reg                   wb_cp0_reg_we,
 
+	// 内陷特权
+	input wire                   flush,
+
 	//送到回写阶段的信息
 	output reg[`RegAddrBus]      wb_wd,
 	output reg                   wb_wreg,
@@ -41,7 +44,7 @@ module mem_wb(
 
 
 	always @ (posedge clk) begin
-		if((rst == `RstEnable) || (stall[4] == 1 && stall[5] == 0))begin
+		if((rst == `RstEnable) || (stall[4] == 1 && stall[5] == 0) || flush)begin
 			wb_wd <= `NOPRegAddr;
 			wb_wreg <= `WriteDisable;
 		    wb_wdata <= `ZeroWord;	

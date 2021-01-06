@@ -37,6 +37,15 @@ module ex_mem(
 	output reg                   mem_cp0_reg_we,
 	output reg[4:0]              mem_cp0_reg_write_addr,
 	output reg[`RegBus]          mem_cp0_reg_data,
+
+	// 特权内陷增加的模块
+	input wire                   flush,
+	input wire[31:0]             ex_excepttype,
+	input wire                   ex_is_in_delayslot,
+	output reg[31:0]            mem_excepttype,
+  	output reg                  mem_is_in_delayslot,
+	input wire                  ex_pcFalse,
+	output reg                  mem_pcFalse,
 	
 	//送到访存阶段的信息
 	output reg[`RegAddrBus]      mem_wd,
@@ -48,7 +57,7 @@ module ex_mem(
 
 
 	always @ (posedge clk) begin
-		if((rst == `RstEnable) || (stall[3] == 1 && stall[4] == 0))begin
+		if((rst == `RstEnable) || (stall[3] == 1 && stall[4] == 0) || flush)begin
 			mem_wd <= `NOPRegAddr;
 			mem_wreg <= `WriteDisable;
 		  	mem_wdata <= `ZeroWord;
@@ -68,7 +77,11 @@ module ex_mem(
 			mem_cp0_reg_write_addr  <= 5'b00000;
 			mem_cp0_reg_data        <= `ZeroWord;
 
+			// 特权内陷
+			mem_excepttype <= `ZeroWord;
+  			mem_is_in_delayslot <= 0;
 
+			mem_pcFalse    <= 0;
 		end 
 		else if(stall[3] == 0)begin
 			mem_wd <= ex_wd;
@@ -89,6 +102,12 @@ module ex_mem(
 			mem_cp0_reg_we          <= ex_cp0_reg_we;
 			mem_cp0_reg_write_addr  <= ex_cp0_reg_write_addr;
 			mem_cp0_reg_data        <= ex_cp0_reg_data;
+
+			// 特权内陷
+			mem_excepttype <= ex_excepttype;
+  			mem_is_in_delayslot <= ex_is_in_delayslot;
+
+			mem_pcFalse    <= ex_pcFalse;
 		end    
 	end     
 			

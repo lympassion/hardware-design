@@ -79,6 +79,9 @@ module openmips(
 	wire[`RegBus] ex_inst;
 	wire[`RegBus]     id2ex_pc;
 
+	//id_ex到 id
+	wire id2id_is_in_delayslot;
+
 	
 
 	//连接执行阶段EX模块的输出与EX/MEM模块的输入
@@ -162,26 +165,47 @@ module openmips(
 	// 分支跳转
 	wire branch_flag;
 	wire[`InstAddrBus]    branch_target_address;
-	wire                  id_is_in_delayslot;  //这条在译码的时候发现为延迟槽指令，is_in_delayslot为true
+	wire                  id2ex_is_in_delayslot;  //这条在译码的时候发现为延迟槽指令，is_in_delayslot为true
 	wire                  next_inst_in_delayslot; // 现在处于译码的指令是分支跳转指令并且满足跳转条件     
 	wire[`RegBus]         id_link_address;  // 需要保存的返回地址
-	wire                  id_ex_is_in_delayslot;
+	wire                  id_is_in_delayslot;
 	wire[`RegBus]         ex_link_address;
 	wire                  ex_is_in_delayslot;  // 这个暂时没有用
 
 	// load相关增加的接口
 	wire[`RegBus]      id_inst_o;
-	// wire[`AluOpBus]    ex2id_aluop;
+
+	// 异常处理增加的接口 
+	wire[31:0]             mem2cp0_excepttype;
+	wire[`RegBus]          mem2cp0_cp0_epc;
+	wire[`RegBus]          cp02pc_new_pc;  // 异常处理地址
+	wire                   	flush;
+	wire[31:0]              id_excepttype;
+	wire[31:0]              id2ex_excepttype;
+	wire[31:0]             ex_excepttype;
+	// wire                   ex_is_in_delayslot; // 执行阶段是否是延迟槽指令
+	wire[31:0]             ex2mem_excepttype;
+  	wire                   ex2mem_is_in_delayslot;
+	wire[`RegBus]          cp02mem_cp0_status;
+	wire[`RegBus]          cp02mem_cp0_cause;
+	wire[`RegBus]          cp02mem_cp0_epc;
+ 	wire                    wb2mem_cp0_reg_we;  // 写回阶段对cp0的前推
+	wire[4:0]               wb2mem_cp0_reg_write_addr;
+	wire[`RegBus]           wb2mem_cp0_reg_data;
+	// wire[31:0]             mem2cp0_excepttype;
+	wire[`RegBus]          mem2ctrl_cp0_epc;
+	wire                  mem2cp0_is_in_delayslot;
+	wire[`RegBus]           mem2cp0_pc;
+	wire[`RegBus]           cp02mem_status;
+	wire[`RegBus]           cp02mem_cause;
+	wire[`RegBus]           cp02mem_epc;
+
+	wire                     ex_pcFalse;
+	wire                     ex2mem_pcFalse;
+	wire[`RegBus]             mem2cp0_bad_addr;
 
 
-	
-	// cp0相关接口
-	// wire                    mem2ex_cp0_reg_we;  //访存阶段的指令是否要写CP0，用来检测数据相关
-	// wire[4:0]               mem2ex_cp0_reg_write_addr;
-	// wire[`RegBus]           mem2ex_cp0_reg_data;  // 访存阶段要写入的寄存器的值（前推）
-	// wire                    wb2ex_cp0_reg_we;  //回写阶段的指令是否要写CP0，用来检测数据相关
-	// wire[4:0]               wb2ex_cp0_reg_write_addr;
-	// wire[`RegBus]           wb2ex_cp0_reg_data;  // 写回阶段要写入的寄存器的值（前推）
+
 	wire[`RegBus]            cp02ex_data;
 	
 	wire                    ex_cp0_reg_we;  //向下一流水级传递写CP0中的寄存器信号
@@ -229,6 +253,10 @@ module openmips(
 		// 分支跳转指令增加的接口
 		.branch_flag_i(branch_flag),
 		.branch_target_address_i(branch_target_address),
+
+		// 异常处理增加的接口
+		.flush(flush),  // 流水线清除
+		.new_pc(cp02pc_new_pc),  // 异常处理地址
 
 		.pc(pc),
 		.stall(stall),
@@ -281,6 +309,14 @@ module openmips(
 
 	ctrl ctrl0(
 		.rst(resetn),
+		.clk(clk),
+
+		// 内陷特权
+		.excepttype_i(mem2cp0_excepttype),
+		.cp0_epc_i(mem2ctrl_cp0_epc),
+		.new_pc(cp02pc_new_pc),
+		.flush(flush), 
+
 		.stallreq_from_id(stallreq_from_id_i),
 		.stallreq_from_ex(stallreq_from_ex_i),
 		.stall(stall)       	
@@ -290,6 +326,7 @@ module openmips(
 	if_id if_id0(
 		.clk(clk),
 		.rst(resetn),
+		.flush(flush),
 		.if_pc(pc),
 		.stall(stall),
 		.if_inst(inst_sram_rdata),
@@ -309,13 +346,16 @@ module openmips(
 		.inst_o(id_inst_o),
 		.stallreq(stallreq_from_id_i),
 
+		// 内线特权
+		.excepttype_o(id_excepttype),
+
 		// 分支跳转指令增加的接口
-		.is_in_delayslot_i(id_is_in_delayslot),  //这条在译码的时候发现为延迟槽指令，is_in_delayslot为true
+		.is_in_delayslot_i(id2id_is_in_delayslot),  //这条在译码的时候发现为延迟槽指令，is_in_delayslot为true
 		.next_inst_in_delayslot_o(next_inst_in_delayslot), // 现在处于译码的指令是分支跳转指令并且满足跳转条件
 		.branch_flag_o(branch_flag),
 		.branch_target_address_o(branch_target_address),       
 		.link_addr_o(id_link_address),  // 需要保存的返回地址
-		.is_in_delayslot_o(id_ex_is_in_delayslot),
+		.is_in_delayslot_o(id_is_in_delayslot),
 
 		//处于执行阶段的指令要写入的目的寄存器信息
 		.ex_wreg_i(ex_wreg_o),
@@ -359,12 +399,17 @@ module openmips(
 		.id_is_in_delayslot(id_is_in_delayslot),
 		.next_inst_in_delayslot_i(next_inst_in_delayslot),	
 		.ex_link_address(ex_link_address),
-		.ex_is_in_delayslot(ex_is_in_delayslot),
-		.is_in_delayslot_o(id_ex_is_in_delayslot),
+		.ex_is_in_delayslot(id2ex_is_in_delayslot),
+		.is_in_delayslot_o(id2id_is_in_delayslot),
 
 		// 数据加载添加的接口
 		.id_inst(id_inst_o),		
 		.ex_inst(ex_inst),
+
+		// 内线特权
+		.flush(flush),
+		.id_excepttype(id_excepttype),
+		.ex_excepttype(id2ex_excepttype),
 		
 		
 		//从译码阶段ID模块传递的信息
@@ -401,6 +446,11 @@ module openmips(
 		.wd_i(ex_wd_i),
 		.wreg_i(ex_wreg_i),
 
+		// 内陷特权
+		.excepttype_i(id2ex_excepttype), // 译码阶段传过来的异常信息
+		.excepttype_o(ex_excepttype),
+		.is_in_delayslot_o(ex_is_in_delayslot), // 执行阶段是否是延迟槽指令
+
 		// 数据加载
 		.inst_i(ex_inst),
 		.aluop_o(ex2id_mem_aluop),
@@ -409,7 +459,7 @@ module openmips(
 
 		//是否转移、以及link address
 		.link_address_i(ex_link_address),
-		.is_in_delayslot_i(ex_is_in_delayslot),  // 这个暂时没有用
+		.is_in_delayslot_i(id2ex_is_in_delayslot),  // 这个暂时没有用
 
 		// 因为数据移动指令(HILO)而添加的接口
 		.hi_i(hi_o),  // 对应Hilo寄存器的值
@@ -437,6 +487,8 @@ module openmips(
 		// 直接与cp0相连的两个端口
 		.cp0_reg_data_i(cp02ex_data),  //读取的CP0寄存器的值
 		.cp0_reg_read_addr_o(ex2cp0_cp0_reg_read_addr),  // 所读取的cp0寄存器的地址， 
+
+		.pcFalse_o(ex_pcFalse),
 
 
 		//div
@@ -467,6 +519,15 @@ module openmips(
 		.ex_wd(ex_wd_o),
 		.ex_wreg(ex_wreg_o),
 		.ex_wdata(ex_wdata_o),
+
+		// 特权内陷增加的模块
+		.flush(flush),
+		.ex_excepttype(ex_excepttype),
+		.ex_is_in_delayslot(ex_is_in_delayslot),
+		.mem_excepttype(ex2mem_excepttype),
+  		.mem_is_in_delayslot(ex2mem_is_in_delayslot),
+		.ex_pcFalse(ex_pcFalse),
+		.mem_pcFalse(ex2mem_pcFalse),
 
 		.stall(stall),
 
@@ -522,6 +583,21 @@ module openmips(
 		.hi_o(mem_hi_o),
 		.lo_o(mem_lo_o),
 
+		// 内陷特权
+		.excepttype_i(ex2mem_excepttype),
+		.is_in_delayslot_i(ex2mem_is_in_delayslot),
+
+		.wb_cp0_reg_we(mem2cp0_cp0_reg_we),  // 写回阶段对cp0的前推
+		.wb_cp0_reg_write_addr(mem2cp0_cp0_reg_write_addr),
+		.wb_cp0_reg_data(mem2cp0_cp0_reg_data),
+		
+		.excepttype_o(mem2cp0_excepttype),
+		.cp0_epc_o(mem2ctrl_cp0_epc),
+		.is_in_delayslot_o(mem2cp0_is_in_delayslot),
+		.pcFalse_i(ex2mem_pcFalse),
+		.bad_addr_o(mem2cp0_bad_addr), // badaddr中存的值
+
+
 		// mfc0, mtc0
 		.cp0_reg_we_i(ex2mem_cp0_reg_we),
 		.cp0_reg_write_addr_i(ex2mem_cp0_reg_write_addr),
@@ -529,6 +605,11 @@ module openmips(
 		.cp0_reg_we_o(mem_cp0_reg_we),
 		.cp0_reg_write_addr_o(mem_cp0_reg_write_addr),
 		.cp0_reg_data_o(mem_cp0_reg_data),
+
+		// 内陷特权
+		.cp0_status_i(cp02mem_cp0_status),
+		.cp0_cause_i(cp02mem_cp0_cause),
+		.cp0_epc_i(cp02mem_cp0_epc),
 	  
 		//送到MEM/WB模块的信息
 		.wd_o(mem_wd_o),
@@ -577,6 +658,9 @@ module openmips(
 		.wb_hi(hi_i),
 		.wb_lo(lo_i),
 
+		// 内线特权
+		.flush(flush),
+
 		.mem_cp0_reg_we(mem_cp0_reg_we),
 		.mem_cp0_reg_write_addr(mem_cp0_reg_write_addr),
 		.mem_cp0_reg_data(mem_cp0_reg_data),
@@ -595,29 +679,31 @@ module openmips(
 	cp0_reg cp0_reg0( 
 
 	.clk(clk),
-	.rst(rst),
+	.rst(resetn),
 	
 	
 	.we_i(mem2cp0_cp0_reg_we),
 	.waddr_i(mem2cp0_cp0_reg_write_addr),
-	.raddr_i(ex2cp0_cp0_reg_read_addr),
 	.data_i(mem2cp0_cp0_reg_data),
+	.raddr_i(ex2cp0_cp0_reg_read_addr),
 	
-//	input wire[31:0]              excepttype_i,
+	
+	.excepttype_i(mem2cp0_excepttype),
 	.int_i(int),
-//	input wire[`RegBus]           current_inst_addr_i,
-//	input wire                    is_in_delayslot_i,
+	// .cp0_pc_i(mem2cp0_pc),
+	.cp0_pc_i(mem_pc),
+	.is_in_delayslot_i(mem2cp0_is_in_delayslot),
+
+	// badaddr
+	.bad_addr_i(mem2cp0_bad_addr),
+	// .badvaddr(mem2cp0_bad_addr),
 	
 	.data_o(cp02ex_data),
-	output reg[`RegBus]           count_o,
-	output reg[`RegBus]           compare_o,
-	output reg[`RegBus]           status_o,
-	output reg[`RegBus]           cause_o,
-	output reg[`RegBus]           epc_o,
-	output reg[`RegBus]           config_o,
-	output reg[`RegBus]           prid_o,
+	.status_o(cp02mem_cp0_status),
+	.cause_o(cp02mem_cp0_cause),
+	.epc_o(cp02mem_cp0_epc),
 	
-	.timer_int_o(timer_int_o)    
+	.timer_int_o(timer_int_o)   
 	
 );
 

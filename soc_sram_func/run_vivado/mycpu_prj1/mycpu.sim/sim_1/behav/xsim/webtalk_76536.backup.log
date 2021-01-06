@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Webtalk v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Tue Jan  5 16:54:11 2021
+# Process ID: 76536
+# Current directory: D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.sim/sim_1/behav/xsim
+# Command line: wbtcv.exe -mode batch -source D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.sim/sim_1/behav/xsim/xsim.dir/tb_top_behav/webtalk/xsim_webtalk.tcl -notrace
+# Log file: D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.sim/sim_1/behav/xsim/webtalk.log
+# Journal file: D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.sim/sim_1/behav/xsim\webtalk.jou
+#-----------------------------------------------------------
+source D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.sim/sim_1/behav/xsim/xsim.dir/tb_top_behav/webtalk/xsim_webtalk.tcl -notrace
+webtalk_transmit: Time (s): cpu = 00:00:00 ; elapsed = 00:00:08 . Memory (MB): peak = 109.199 ; gain = 23.691
+INFO: [Common 17-206] Exiting Webtalk at Tue Jan  5 16:54:19 2021...

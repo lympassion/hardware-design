@@ -114,6 +114,11 @@
 `define EXE_SH  6'b101001
 `define EXE_SW  6'b101011
 
+// 内陷特权
+`define EXE_BREAK 6'b001101
+`define EXE_SYSCALL 6'b001100
+`define EXE_ERET 32'b01000010000000000000000000011000
+
 
 
 //AluOp 对于special，需要知道运算的子类型
@@ -192,9 +197,13 @@
 `define EXE_SH_OP  8'b11101001
 `define EXE_SW_OP  8'b11101011
 
-// 特权指令
+
+// 内陷特权指令
 `define EXE_MFC0_OP 8'b01011101
 `define EXE_MTC0_OP 8'b01100000
+`define EXE_BREAK_OP   8'b00001101
+`define EXE_SYSCALL_OP 8'b00001100
+`define EXE_ERET_OP 8'b01101011
 
 
 
@@ -242,6 +251,7 @@
 `define DivStop 1'b0
 
 //CP0寄存器地址
+`define CP0_REG_BADVADDR 5'b01000     // BADVADDR寄存器 存储出错地址
 `define CP0_REG_COUNT    5'b01001        //可读写
 `define CP0_REG_COMPARE    5'b01011      //可读写
 `define CP0_REG_STATUS    5'b01100       //可读写

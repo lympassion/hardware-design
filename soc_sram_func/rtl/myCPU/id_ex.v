@@ -25,6 +25,11 @@ module id_ex(
   	output reg                    ex_is_in_delayslot,
 	output reg                    is_in_delayslot_o,
 
+	// 内线特权
+	input wire                    flush,
+	input wire[31:0]              id_excepttype,
+	output reg[31:0]              ex_excepttype,
+
 	// 数据加载
 	input wire[`RegBus]           id_inst,		
 	output reg[`RegBus]           ex_inst,	
@@ -40,7 +45,7 @@ module id_ex(
 );
 
 	always @ (posedge clk) begin  //000_111, 001_111
-		if ((rst == `RstEnable) || (stall[2] == 1 && stall[3] == 0)) begin
+		if ((rst == `RstEnable) || (stall[2] == 1 && stall[3] == 0) || flush) begin  // flush和stall做的工作都是一致的
 			ex_aluop <= `EXE_NOP_OP;
 			ex_alusel <= `EXE_RES_NOP;
 			ex_reg1 <= `ZeroWord;
@@ -53,6 +58,9 @@ module id_ex(
 			is_in_delayslot_o <= 0;
 			ex_inst <= `ZeroWord;
 			id2ex_pc_o <= `ZeroWord;
+
+			// 内陷特权
+			ex_excepttype <= `ZeroWord;
 
 		end else if(stall[2] == `NoStop)begin  // 这里一定要加这个判断条件, 否则这种情况001_111会更新
 			ex_aluop <= id_aluop;
@@ -67,6 +75,9 @@ module id_ex(
 			is_in_delayslot_o <= next_inst_in_delayslot_i;	
 			ex_inst <= 	id_inst;
 			id2ex_pc_o <= id2ex_pc_i;
+
+			// 内线特权
+			ex_excepttype <= id_excepttype;
 		end
 	end
 

@@ -1,7 +1,7 @@
 -- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2019.1 (win64) Build 2552052 Fri May 24 14:49:42 MDT 2019
--- Date        : Mon Jan  4 16:38:33 2021
+-- Date        : Wed Jan  6 20:17:37 2021
 -- Host        : hsly running 64-bit major release  (build 9200)
 -- Command     : write_vhdl -force -mode synth_stub
 --               D:/practice_code/subject/hardware_design/soc_sram_func/rtl/xilinx_ip/inst_ram/inst_ram_stub.vhdl

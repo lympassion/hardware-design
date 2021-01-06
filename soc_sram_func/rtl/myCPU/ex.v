@@ -19,6 +19,11 @@ module ex(
 	input wire[`RegBus]           link_address_i,
 	input wire                    is_in_delayslot_i,  // 这个暂时没有用
 
+	// 内陷特权
+	input wire[31:0]              excepttype_i, // 译码阶段传过来的异常信息
+	output wire[31:0]             excepttype_o,
+	output wire                   is_in_delayslot_o, // 执行阶段是否是延迟槽指令
+
 	// 数据加载
 	input wire[`RegBus]          inst_i,
 	output reg[`AluOpBus]        aluop_o,
@@ -49,6 +54,7 @@ module ex(
 	output reg                    cp0_reg_we_o,  //向下一流水级传递写CP0中的寄存器信号
 	output reg[4:0]               cp0_reg_write_addr_o,
 	output reg[`RegBus]           cp0_reg_data_o,  // 执行阶段要向cp0传输的数据
+	output reg                    pcFalse_o,
 	// 直接与cp0相连的两个端口
 	input wire[`RegBus]           cp0_reg_data_i,  //读取的CP0寄存器的值
 	output reg[4:0]               cp0_reg_read_addr_o,  // 所读取的cp0寄存器的地址， 
@@ -100,6 +106,60 @@ module ex(
 
 
 	// reg[`RegBus]         sltres;     // 加减得到的结果
+	reg trapassert;  // 是否有自陷异常，在这里默认没有
+	reg ovassert;    // 是否有溢出异常
+	reg badaddr_read_fetch;// 自己加入
+	reg badaddr_write;
+
+
+	// 地址例外
+	always @ (*) begin
+		if(rst == `RstEnable) begin
+			badaddr_read_fetch <= 0;
+			badaddr_write <= 0;
+			pcFalse_o       <= 0;
+		end else begin
+			badaddr_read_fetch <= 0;
+			badaddr_write <= 0;
+			pcFalse_o       <= 0;
+			case (aluop_i)
+				`EXE_LW_OP: begin
+					if (mem_addr_o[1:0]!=2'b00) begin
+						badaddr_read_fetch <= 1; 
+					end
+				end
+				`EXE_LH_OP, `EXE_LHU_OP: begin
+					// if (mem_addr_o[1:0]!=2'b00 || mem_addr_o[1:0]!=2'b10) begin
+					if (mem_addr_o[1:0]!=2'b00 && mem_addr_o[1:0]!=2'b10) begin
+						badaddr_read_fetch <= 1; 
+					end
+				end
+				`EXE_SW_OP: begin
+					if (mem_addr_o[1:0]!=2'b00) begin
+						badaddr_write <= 1; 
+					end
+				end
+				`EXE_SH_OP: begin
+					if (mem_addr_o[1:0]!=2'b00 && mem_addr_o[1:0]!=2'b10) begin
+						badaddr_write <= 1; 
+					end
+				end
+				default: begin
+					
+				end 
+			endcase
+		 	if (ex_pc_o[1:0]!=2'b00) begin // pc
+				 badaddr_read_fetch <= 1; 
+				 pcFalse_o            <= 1;
+			end 
+	  	end
+	end
+
+	assign excepttype_o = {excepttype_i[31:16], badaddr_read_fetch, badaddr_write, excepttype_i[13:12],
+								ovassert, trapassert,
+  								excepttype_i[9:8],8'b0};
+
+	// assign excepttype_o = {excepttype_i[31:12],ovassert,trapassert,excepttype_i[9:8],8'h00};
 
 
 	// mfc0, mtco
@@ -111,10 +171,10 @@ module ex(
 			cp0_reg_read_addr_o    <= `NOPRegAddr;  // 所读取的cp0寄存器的地址	
 			Hilores                <= `ZeroWord;						
 		end else if(aluop_i == `EXE_MFC0_OP) begin  
-			if(mem_cp0_reg_we && (mem_cp0_reg_write_addr == wd_i) ) begin  // 这个地方一定要注意顺序(mem阶段的才是最新的)
+			if(mem_cp0_reg_we && (mem_cp0_reg_write_addr == inst_i[15:11]) ) begin  // 这个地方一定要注意顺序(mem阶段的才是最新的)
 				cp0_reg_read_addr_o <= inst_i[15:11];
 				Hilores             <= mem_cp0_reg_data;
-			end else if (wb_cp0_reg_we && (wb_cp0_reg_write_addr == wd_i) ) begin
+			end else if (wb_cp0_reg_we && (wb_cp0_reg_write_addr == inst_i[15:11]) ) begin
 				cp0_reg_read_addr_o <= inst_i[15:11];
 				Hilores      <= wb_cp0_reg_data;
 			end else begin
@@ -125,7 +185,11 @@ module ex(
 			cp0_reg_we_o           <= 1;
 			cp0_reg_write_addr_o   <= inst_i[15:11];
 			cp0_reg_data_o         <= reg1_i;  // 执行阶段要向cp0传输的数据
-		end			
+		end	else begin // 这里要有
+			cp0_reg_write_addr_o <= 5'b00000;
+			cp0_reg_we_o <= `WriteDisable;
+			cp0_reg_data_o <= `ZeroWord;
+		end		
 	end
 	
 
@@ -255,7 +319,7 @@ module ex(
 					Hilores <= reg1_i;
 				end
 				default:				begin
-					Hilores <= `ZeroWord;
+					// Hilores <= `ZeroWord;  // 这
 				end
 			endcase
 		end    
@@ -275,33 +339,6 @@ module ex(
 		end
 	end	
 
-
-	//MFHI、MFLO、MTHI、MTLO指令 这里分别处理
-	//MFHI、MFLO、MOVN、MOVZ指令
-	// always @ (*) begin
-	// 	if(rst == `RstEnable) begin
-	//   	Hilores <= `ZeroWord;
-	//   end else begin
-	// //    Hilores <= `ZeroWord;
-	// //    whilo_o <= `WriteDisable;
-	//    case (aluop_i)
-	//    	`EXE_MFHI_OP:		begin
-	//    		Hilores <= HI;
-	//    	end
-	//    	`EXE_MFLO_OP:		begin
-	//    		Hilores <= LO;
-	//    	end
-	//    	// `EXE_MOVZ_OP:		begin
-	//    	// 	Hilores <= reg1_i;
-	//    	// end
-	//    	// `EXE_MOVN_OP:		begin
-	//    	// 	Hilores <= reg1_i;
-	//    	// end
-	//    	default : begin
-	//    	end
-	//    endcase
-	//   end
-	// end	 
 
 	// 写Hilo
 	always @ (*) begin
@@ -376,6 +413,13 @@ module ex(
 	// 同号相乘,无符号乘法不需要修正
 	assign mult_res = ((aluop_i == `EXE_MULT_OP) && (reg1_i[31] ^ reg2_i[31])) ? 
 						(~(mult_1 * mult_2)+1) : mult_1 * mult_2; 
+
+	
+	// 溢出异常处理相关——具体在最后面处理写的模块
+	// assign excepttype_o = {excepttype_i[31:12],ovassert,trapassert,excepttype_i[9:8],8'h00};
+	// assign excepttype_o = {excepttype_i[31:12],ovassert,trapassert,excepttype_i[9:8],8'h00};
+
+	assign is_in_delayslot_o = is_in_delayslot_i;
 	// 
 	always @ (*) begin
 		if(rst == `RstEnable) begin
@@ -496,11 +540,22 @@ module ex(
 	// 这一模块处理写
 	always @ (*) begin
 		wd_o <= wd_i;
-		if(ov_flow)begin // 加法,减法放到一起, addi,add,sub引起的溢出处理方法是不将结果写入到寄存器中
+		trapassert <= `TrapNotAssert;
+		// badaddr_read_fetch <= `TrapNotAssert;
+		// badaddr_write <= `TrapNotAssert;
+		if(((aluop_i == `EXE_ADD_OP) || (aluop_i == `EXE_ADDI_OP) || 
+			(aluop_i == `EXE_SUB_OP)) && (ov_flow == 1'b1)) begin
 			wreg_o <= `WriteDisable;
-		end	 else begin
+			ovassert <= 1'b1;
+		end else begin
 			wreg_o <= wreg_i;
-		end	 	
+			ovassert <= 1'b0;
+		end
+		// if(ov_flow)begin // 加法,减法放到一起, addi,add,sub引起的溢出处理方法是不将结果写入到寄存器中
+		// 	wreg_o <= `WriteDisable;
+		// end	 else begin
+		// 	wreg_o <= wreg_i;
+		// end	 	
 		case ( alusel_i ) 
 		`EXE_RES_LOGIC:		begin
 			wdata_o <= logicres;

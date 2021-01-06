@@ -11,22 +11,26 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="105204200000fs"></ZoomStartTime>
-      <ZoomEndTime time="105315600001fs"></ZoomEndTime>
-      <Cursor1Time time="105230000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="111900001fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="232"></NameColumnWidth>
-      <ValueColumnWidth column_width="182"></ValueColumnWidth>
+      <ValueColumnWidth column_width="177"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="33" />
-   <wvobject fp_name="/tb_top/resetn" type="logic">
-      <obj_property name="ElementShortName">resetn</obj_property>
-      <obj_property name="ObjectShortName">resetn</obj_property>
-   </wvobject>
+   <WVObjectSize size="39" />
+   <wave_markers>
+      <marker time="842822067000" label="" />
+      <marker time="93777350000" label="" />
+   </wave_markers>
    <wvobject fp_name="/tb_top/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/soc_lite/cpu/id0/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/led" type="array">
       <obj_property name="ElementShortName">led[15:0]</obj_property>
@@ -68,15 +72,15 @@
       <obj_property name="ElementShortName">soc_clk</obj_property>
       <obj_property name="ObjectShortName">soc_clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/tb_top/debug_wb_pc" type="array">
-      <obj_property name="ElementShortName">debug_wb_pc[31:0]</obj_property>
-      <obj_property name="ObjectShortName">debug_wb_pc[31:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
    <wvobject fp_name="/tb_top/debug_wb_rf_wen" type="array">
       <obj_property name="ElementShortName">debug_wb_rf_wen[3:0]</obj_property>
       <obj_property name="ObjectShortName">debug_wb_rf_wen[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/debug_wb_pc" type="array">
+      <obj_property name="ElementShortName">debug_wb_pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">debug_wb_pc[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -91,6 +95,10 @@
       <obj_property name="ObjectShortName">debug_wb_rf_wdata[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFFF00</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/soc_lite/cpu/cp0_reg0/cause_o" type="array">
+      <obj_property name="ElementShortName">cause_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cause_o[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/trace_ref" type="array">
       <obj_property name="ElementShortName">trace_ref[31:0]</obj_property>
@@ -122,21 +130,43 @@
       <obj_property name="CustomSignalColor">#FF0080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/soc_lite/cpu/id0/inst_o" type="array">
+      <obj_property name="ElementShortName">inst_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">inst_o[31:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top/debug_wb_err" type="logic">
       <obj_property name="ElementShortName">debug_wb_err</obj_property>
       <obj_property name="ObjectShortName">debug_wb_err</obj_property>
    </wvobject>
+   <wvobject fp_name="/tb_top/soc_lite/data_ram/ena" type="logic">
+      <obj_property name="ElementShortName">ena</obj_property>
+      <obj_property name="ObjectShortName">ena</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/soc_lite/data_ram/wea" type="array">
+      <obj_property name="ElementShortName">wea[3:0]</obj_property>
+      <obj_property name="ObjectShortName">wea[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/soc_lite/cpu/mem0/mem_addr_o" type="array">
+      <obj_property name="ElementShortName">mem_addr_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_addr_o[31:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/tb_top/soc_lite/data_ram/addra" type="array">
       <obj_property name="ElementShortName">addra[15:0]</obj_property>
       <obj_property name="ObjectShortName">addra[15:0]</obj_property>
+      <obj_property name="CustomSignalColor">#0000FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/soc_lite/data_ram/dina" type="array">
       <obj_property name="ElementShortName">dina[31:0]</obj_property>
       <obj_property name="ObjectShortName">dina[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#0000FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/soc_lite/data_ram/douta" type="array">
       <obj_property name="ElementShortName">douta[31:0]</obj_property>
       <obj_property name="ObjectShortName">douta[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#0000FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/tb_top/err_count" type="array">
       <obj_property name="ElementShortName">err_count[7:0]</obj_property>
@@ -165,5 +195,9 @@
    <wvobject fp_name="/tb_top/test_end" type="logic">
       <obj_property name="ElementShortName">test_end</obj_property>
       <obj_property name="ObjectShortName">test_end</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/resetn" type="logic">
+      <obj_property name="ElementShortName">resetn</obj_property>
+      <obj_property name="ObjectShortName">resetn</obj_property>
    </wvobject>
 </wave_config>

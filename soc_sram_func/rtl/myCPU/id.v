@@ -1,12 +1,12 @@
 `include "defines.v"
 
-module id(
+module id(  
 
 	input wire					rst,
 	input wire[`InstAddrBus]	pc_i,
 	input wire[`InstBus]        inst_i,
 
-	output wire[`RegBus]        id_pc_o,
+	output wire[`RegBus]        id_pc_o,  // 数据通路图在这里之后有关pc的接口和书上不一致
 
 	//处于执行阶段的指令要写入的目的寄存器信息
 	input wire					ex_wreg_i,  // 执行阶段是否要写寄存器
@@ -20,6 +20,10 @@ module id(
 
 	input wire[`RegBus]         reg1_data_i,
 	input wire[`RegBus]         reg2_data_i,
+
+	// 异常处理
+	output wire[31:0]             excepttype_o, // 在id模块得到的异常信息
+  	// output wire[`RegBus]          current_inst_address_0,
 
 	
 
@@ -79,6 +83,31 @@ module id(
 	reg stallreq_for_reg1_loadrelate;
   	reg stallreq_for_reg2_loadrelate;
 	wire pre_inst_is_load;
+
+
+	// 异常处理（第几位初始值为0）
+	// 低8bits------- 留给外部中断
+	// 第8bit ------- 系统调用例外
+	// 第9bit ------- 保留指令例外（无法译码）
+	// 第10bit -------自陷异常例外（ex中）
+	// 第11bit -------溢出异常例外（ex中）
+	// 第12bit--------eret指令（异常返回指令）
+	// 第13bit--------break指令（断点例外）
+	// 第14bit--------地址错例外（写数据访存不对齐, ex中）
+	// 第15bit--------地址错例外（取指pc或读数据访存不对齐, ex中）
+	reg excepttype_is_syscall;
+  	reg excepttype_is_eret;
+	reg excepttype_is_break; //加入
+	// reg excepttype_is_badaddr_read_fetch;// 自己加入
+	// reg excepttype_is_badaddr_write;
+
+	// 这里加入了break指令                                                 13
+	// assign excepttype_o = {16'b0, badaddr_read_fetch, badaddr_write, 
+	// 							excepttype_is_break, excepttype_is_eret,2'b0,
+  	// 							instvalid, excepttype_is_syscall,8'b0};
+	assign excepttype_o = {18'b0, excepttype_is_break, excepttype_is_eret,2'b0,
+							instvalid, excepttype_is_syscall,8'b0};  // `InstValid-----0
+
 	
 	assign pc_plus_8 = pc_i + 8;
 	assign pc_plus_4 = pc_i +4;
@@ -104,45 +133,56 @@ module id(
 
 
 	// mfc0,mtc0
-	always @ (*) begin	
-		if (rst == `RstEnable) begin
-			aluop_o <= `EXE_NOP_OP;
-			alusel_o <= `EXE_RES_NOP;
-			wd_o <= `NOPRegAddr;
-			wreg_o <= `WriteDisable;
-			instvalid <= `InstValid;
-			reg1_read_o <= 1'b0;
-			reg2_read_o <= 1'b0;
-			reg1_addr_o <= `NOPRegAddr;
-			reg2_addr_o <= `NOPRegAddr;
-			imm <= 32'h0;	
+	// always @ (*) begin	
+	// 	if (rst == `RstEnable) begin
+	// 		aluop_o <= `EXE_NOP_OP;
+	// 		alusel_o <= `EXE_RES_NOP;
+	// 		wd_o <= `NOPRegAddr;
+	// 		wreg_o <= `WriteDisable;
+	// 		instvalid <= `InstValid;
+	// 		reg1_read_o <= 1'b0;
+	// 		reg2_read_o <= 1'b0;
+	// 		reg1_addr_o <= `NOPRegAddr;
+	// 		reg2_addr_o <= `NOPRegAddr;
+	// 		imm <= 32'h0;	
 
-			link_addr_o <= `ZeroWord;
-			branch_target_address_o <= `ZeroWord;
-			branch_flag_o <= `NotBranch;
-			next_inst_in_delayslot_o <= `NotInDelaySlot;		
-	  	end else begin
-			if(inst_i[31:21] == 11'b01000000000 && 
-										inst_i[10:0] == 11'b00000000000) begin
-				aluop_o <= `EXE_MFC0_OP;
-				alusel_o <= `EXE_RES_HILO;
-				wd_o <= inst_i[20:16];   // 写到rt中而不是rs中
-				wreg_o <= `WriteEnable;
-				instvalid <= `InstValid;	   
-				reg1_read_o <= 1'b0;
-				reg2_read_o <= 1'b0;		
-			end else if(inst_i[31:21] == 11'b01000000100 && 
-										inst_i[10:0] == 11'b00000000000) begin
-				aluop_o <= `EXE_MTC0_OP;
-				alusel_o <= `EXE_RES_NOP;
-				wreg_o <= `WriteDisable;
-				instvalid <= `InstValid;	   
-				reg1_read_o <= 1'b1;
-				reg1_addr_o <= inst_i[20:16];
-				reg2_read_o <= 1'b0;					
-			end
-		end
-	end
+	// 		link_addr_o <= `ZeroWord;
+	// 		branch_target_address_o <= `ZeroWord;
+	// 		branch_flag_o <= `NotBranch;
+	// 		next_inst_in_delayslot_o <= `NotInDelaySlot;
+
+	// 		// 异常处理
+	// 		excepttype_is_syscall <= `False_v;
+	// 		excepttype_is_eret <= `False_v;	
+	// 		excepttype_is_break <= `False_v;
+	// 		// excepttype_is_badaddr_read_fetch <= `False_v;	
+	// 		// excepttype_is_badaddr_write <= `False_v;
+	//   	end else begin
+	// 		if(inst_i == `EXE_ERET) begin // 这个指令在哪个位置没有影响
+	// 			wreg_o <= `WriteDisable;		aluop_o <= `EXE_ERET_OP;
+	// 			alusel_o <= `EXE_RES_NOP;   reg1_read_o <= 1'b0;	reg2_read_o <= 1'b0;
+	// 			instvalid <= `InstValid; excepttype_is_eret<= `True_v;				
+	// 		end else if(inst_i[31:21] == 11'b01000000000 && 
+	// 									inst_i[10:0] == 11'b00000000000) begin
+	// 			aluop_o <= `EXE_MFC0_OP;
+	// 			alusel_o <= `EXE_RES_HILO;
+	// 			wd_o <= inst_i[20:16];   // 写到rt中而不是rs中
+	// 			wreg_o <= `WriteEnable;
+	// 			instvalid <= `InstValid;	   
+	// 			reg1_read_o <= 1'b0;
+	// 			reg2_read_o <= 1'b0;		
+	// 		end else if(inst_i[31:21] == 11'b01000000100 && 
+	// 									inst_i[10:0] == 11'b00000000000) begin
+	// 			aluop_o <= `EXE_MTC0_OP;
+	// 			alusel_o <= `EXE_RES_NOP;
+	// 			wreg_o <= `WriteDisable;
+	// 			instvalid <= `InstValid;	   
+	// 			reg1_read_o <= 1'b1;
+	// 			reg1_addr_o <= inst_i[20:16];
+	// 			reg2_read_o <= 1'b0;					
+	// 		end
+	// 	end
+	// end
 
 
  
@@ -162,13 +202,17 @@ module id(
 			link_addr_o <= `ZeroWord;
 			branch_target_address_o <= `ZeroWord;
 			branch_flag_o <= `NotBranch;
-			next_inst_in_delayslot_o <= `NotInDelaySlot;		
+			next_inst_in_delayslot_o <= `NotInDelaySlot;
+			// 异常处理
+			excepttype_is_syscall <= `False_v;
+			excepttype_is_eret <= `False_v;	
+			excepttype_is_break <= `False_v;		
 	  end else begin
 			aluop_o <= `EXE_NOP_OP;
 			alusel_o <= `EXE_RES_NOP;
 			wd_o <= inst_i[15:11];  // 默认位置
 			wreg_o <= `WriteDisable;
-			instvalid <= `InstInvalid;	   
+			instvalid <= (inst_i == `ZeroWord) ? `InstValid :`InstInvalid;	   // 空指令默认为有效指令
 			reg1_read_o <= 1'b0;
 			reg2_read_o <= 1'b0;
 			reg1_addr_o <= inst_i[25:21];
@@ -179,20 +223,10 @@ module id(
 			branch_target_address_o <= `ZeroWord;
 			branch_flag_o <= `NotBranch;
 			next_inst_in_delayslot_o <= `NotInDelaySlot;	
-		//   case (op)
-		//   	`EXE_ORI:begin            //ORI指令
-		//   		wreg_o <= `WriteEnable;	
-        //         alusel_o <= `EXE_RES_LOGIC;	     // 运算类型是逻辑运算   
-        //         aluop_o <= `EXE_OR_OP;           // 运算子类型是或
-        //         reg1_read_o <= 1'b1;	
-        //         reg2_read_o <= 1'b0;	  	
-        //         imm <= {16'h0, inst_i[15:0]};		
-        //         wd_o <= inst_i[20:16];
-        //         instvalid <= `InstValid;	
-		//   	end 							 
-		//     default:			begin
-		//     end
-		//   endcase		  //case op		
+			// 异常处理
+			excepttype_is_syscall <= `False_v;
+			excepttype_is_eret <= `False_v;	
+			excepttype_is_break <= `False_v;
 			case (op)
 				`EXE_LB:			begin
 		  			wreg_o <= `WriteEnable;		aluop_o <= `EXE_LB_OP;
@@ -215,9 +249,10 @@ module id(
 					wd_o <= inst_i[20:16]; instvalid <= `InstValid;	
 				end
 				`EXE_LW:			begin
-		  		wreg_o <= `WriteEnable;		aluop_o <= `EXE_LW_OP;
-		  		alusel_o <= `EXE_RES_LOAD_STORE; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;	  	
+					wreg_o <= `WriteEnable;		aluop_o <= `EXE_LW_OP;
+					alusel_o <= `EXE_RES_LOAD_STORE; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;	  	
 					wd_o <= inst_i[20:16]; instvalid <= `InstValid;	
+					// excepttype_is_badaddr_read_fetch <= () || (pc_i[1:0] != 2'b00)
 				end
 				`EXE_SB:			begin
 		  		wreg_o <= `WriteDisable;		aluop_o <= `EXE_SB_OP;
@@ -400,6 +435,18 @@ module id(
 									branch_flag_o <= `Branch;
 									next_inst_in_delayslot_o <= `InDelaySlot; // 这一条指令是跳转指令，那么下一条指令就是延迟槽指令
 								end
+
+								// syscall,break
+								`EXE_SYSCALL: begin
+									wreg_o <= `WriteDisable;		aluop_o <= `EXE_SYSCALL_OP;
+									alusel_o <= `EXE_RES_NOP;   reg1_read_o <= 1'b0;	reg2_read_o <= 1'b0;
+									instvalid <= `InstValid; excepttype_is_syscall<= `True_v;
+								end	
+								`EXE_BREAK: begin
+									wreg_o <= `WriteDisable;		aluop_o <= `EXE_BREAK_OP;
+									alusel_o <= `EXE_RES_NOP;   reg1_read_o <= 1'b0;	reg2_read_o <= 1'b0;
+									instvalid <= `InstValid; excepttype_is_break<= `True_v;
+								end	
 								default:	begin
 								end
 							endcase
@@ -435,8 +482,8 @@ module id(
 					// $0,对应他的值reg1_addr_o，所以不需要在做其他修改
 					wreg_o <= `WriteEnable;		aluop_o <= `EXE_OR_OP;
 					alusel_o <= `EXE_RES_LOGIC; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;	  	
-						imm <= {inst_i[15:0], 16'h0};		wd_o <= inst_i[20:16];		  	
-						instvalid <= `InstValid;	
+					imm <= {inst_i[15:0], 16'h0};		wd_o <= inst_i[20:16];		  	
+					instvalid <= `InstValid;	
 					end		
 				// `EXE_PREF:			begin
 				// wreg_o <= `WriteDisable;		aluop_o <= `EXE_NOP_OP;
@@ -530,40 +577,44 @@ module id(
 					wreg_o <= `WriteDisable;		aluop_o <= `EXE_BEQ_OP;
 					alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;
 					instvalid <= `InstValid;	
+					next_inst_in_delayslot_o <= `InDelaySlot;
 					if(reg1_o == reg2_o) begin
 						branch_target_address_o <= pc_plus_4+ imm_sll2_signedext_b;
 						branch_flag_o <= `Branch;
-						next_inst_in_delayslot_o <= `InDelaySlot;		  	
+						// next_inst_in_delayslot_o <= `InDelaySlot;		  	
 					end
 				end
 				`EXE_BGTZ:			begin
 					wreg_o <= `WriteDisable;		aluop_o <= `EXE_BGTZ_OP;
 					alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;
 					instvalid <= `InstValid;	
+					next_inst_in_delayslot_o <= `InDelaySlot;		  	
 					if((reg1_o[31] == 1'b0) && (reg1_o != `ZeroWord)) begin
 						branch_target_address_o <= pc_plus_4+ imm_sll2_signedext_b;
 						branch_flag_o <= `Branch;
-						next_inst_in_delayslot_o <= `InDelaySlot;		  	
+						// next_inst_in_delayslot_o <= `InDelaySlot;		  	
 					end
 				end
 				`EXE_BLEZ:			begin
 					wreg_o <= `WriteDisable;		aluop_o <= `EXE_BLEZ_OP;
 					alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;
 					instvalid <= `InstValid;	
+					next_inst_in_delayslot_o <= `InDelaySlot;		  	
 					if((reg1_o[31] == 1'b1) || (reg1_o == `ZeroWord)) begin
 						branch_target_address_o <= pc_plus_4+ imm_sll2_signedext_b;
 						branch_flag_o <= `Branch;
-						next_inst_in_delayslot_o <= `InDelaySlot;		  	
+						// next_inst_in_delayslot_o <= `InDelaySlot;		  	
 					end
 				end
 				`EXE_BNE:			begin
 					wreg_o <= `WriteDisable;		aluop_o <= `EXE_BLEZ_OP;
 					alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;
 					instvalid <= `InstValid;	
+					next_inst_in_delayslot_o <= `InDelaySlot;		  	
 					if(reg1_o != reg2_o) begin
 						branch_target_address_o <= pc_plus_4+ imm_sll2_signedext_b;
 						branch_flag_o <= `Branch;
-						next_inst_in_delayslot_o <= `InDelaySlot;		  	
+						// next_inst_in_delayslot_o <= `InDelaySlot;		  	
 					end
 				end
 
@@ -572,11 +623,12 @@ module id(
 						`EXE_BGEZ:	begin
 							wreg_o <= `WriteDisable;		aluop_o <= `EXE_BGEZ_OP;
 							alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;
-							instvalid <= `InstValid;	
+							instvalid <= `InstValid;
+							next_inst_in_delayslot_o <= `InDelaySlot;		  	
 							if(reg1_o[31] == 1'b0) begin
 								branch_target_address_o <= pc_plus_4 + imm_sll2_signedext_b;
 								branch_flag_o <= `Branch;
-								next_inst_in_delayslot_o <= `InDelaySlot;		  	
+								// next_inst_in_delayslot_o <= `InDelaySlot;		  	
 							end
 						end
 						`EXE_BGEZAL:		begin
@@ -584,20 +636,22 @@ module id(
 							alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;
 							link_addr_o <= pc_plus_8; 
 							wd_o <= 5'b11111;  	instvalid <= `InstValid;
+							next_inst_in_delayslot_o <= `InDelaySlot;
 							if(reg1_o[31] == 1'b0) begin
 								branch_target_address_o <= pc_plus_4 + imm_sll2_signedext_b;
 								branch_flag_o <= `Branch;
-								next_inst_in_delayslot_o <= `InDelaySlot;
+								// next_inst_in_delayslot_o <= `InDelaySlot;
 							end
 						end
 						`EXE_BLTZ:		begin
 							wreg_o <= `WriteDisable;		aluop_o <= `EXE_BGEZAL_OP;
 							alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;
 							instvalid <= `InstValid;	
+							next_inst_in_delayslot_o <= `InDelaySlot;		  	
 							if(reg1_o[31] == 1'b1) begin
 								branch_target_address_o <= pc_plus_4 + imm_sll2_signedext_b;
 								branch_flag_o <= `Branch;
-								next_inst_in_delayslot_o <= `InDelaySlot;		  	
+								// next_inst_in_delayslot_o <= `InDelaySlot;		  	
 							end
 						end
 						`EXE_BLTZAL:		begin
@@ -605,10 +659,11 @@ module id(
 							alusel_o <= `EXE_RES_JUMP_BRANCH; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;
 							link_addr_o <= pc_plus_8;	
 							wd_o <= 5'b11111; instvalid <= `InstValid;
+							next_inst_in_delayslot_o <= `InDelaySlot;
 							if(reg1_o[31] == 1'b1) begin  // 小于0
 								branch_target_address_o <= pc_plus_4 + imm_sll2_signedext_b;
 								branch_flag_o <= `Branch;
-								next_inst_in_delayslot_o <= `InDelaySlot;
+								// next_inst_in_delayslot_o <= `InDelaySlot;
 							end
 						end
 						default:	begin
@@ -637,6 +692,57 @@ module id(
 					instvalid <= `InstValid;	
 				end
 			end
+
+			// 要把mtc0和mfc0指令移进来，否则会判断这两个指令为无效指令，导致异常发生。
+		// 	if(inst_i == `EXE_ERET) begin // 这个指令在哪个位置没有影响
+		// 		wreg_o <= `WriteDisable;		aluop_o <= `EXE_ERET_OP;
+		// 		alusel_o <= `EXE_RES_NOP;   reg1_read_o <= 1'b0;	reg2_read_o <= 1'b0;
+		// 		instvalid <= `InstValid; excepttype_is_eret<= `True_v;				
+		// 	end else if(inst_i[31:21] == 11'b01000000000 && 
+		// 								inst_i[10:0] == 11'b00000000000) begin
+		// 		aluop_o <= `EXE_MFC0_OP;
+		// 		alusel_o <= `EXE_RES_HILO;
+		// 		wd_o <= inst_i[20:16];   // 写到rt中而不是rs中
+		// 		wreg_o <= `WriteEnable;
+		// 		instvalid <= `InstValid;	   
+		// 		reg1_read_o <= 1'b0;
+		// 		reg2_read_o <= 1'b0;		
+		// 	end else if(inst_i[31:21] == 11'b01000000100 && 
+		// 								inst_i[10:0] == 11'b00000000000) begin
+		// 		aluop_o <= `EXE_MTC0_OP;
+		// 		alusel_o <= `EXE_RES_NOP;
+		// 		wreg_o <= `WriteDisable;
+		// 		instvalid <= `InstValid;	   
+		// 		reg1_read_o <= 1'b1;
+		// 		reg1_addr_o <= inst_i[20:16];
+		// 		reg2_read_o <= 1'b0;					
+		// 	end
+		// end       //if
+
+		if(inst_i == `EXE_ERET) begin
+				wreg_o <= `WriteDisable;		aluop_o <= `EXE_ERET_OP;
+		  	alusel_o <= `EXE_RES_NOP;   reg1_read_o <= 1'b0;	reg2_read_o <= 1'b0;
+		  	instvalid <= `InstValid; excepttype_is_eret<= `True_v;				
+			end else if(inst_i[31:21] == 11'b01000000000 && 
+										inst_i[10:0] == 11'b00000000000) begin
+				aluop_o <= `EXE_MFC0_OP;
+				alusel_o <= `EXE_RES_HILO;
+				wd_o <= inst_i[20:16];
+				wreg_o <= `WriteEnable;
+				instvalid <= `InstValid;	   
+				reg1_read_o <= 1'b0;
+				reg2_read_o <= 1'b0;		
+			end else if(inst_i[31:21] == 11'b01000000100 && 
+										inst_i[10:0] == 11'b00000000000) begin
+				aluop_o <= `EXE_MTC0_OP;
+				alusel_o <= `EXE_RES_NOP;
+				wreg_o <= `WriteDisable;
+				instvalid <= `InstValid;	   
+				reg1_read_o <= 1'b1;
+				reg1_addr_o <= inst_i[20:16];
+				reg2_read_o <= 1'b0;					
+			end
+		  
 		end       //if
 	end         //always
 	
