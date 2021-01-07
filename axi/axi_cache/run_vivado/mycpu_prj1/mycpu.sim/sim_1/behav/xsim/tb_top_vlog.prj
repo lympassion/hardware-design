@@ -1,0 +1,43 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  --include "../../../../mycpu.ip_user_files/ipstatic/hdl" --include "../../../../../../rtl/xilinx_ip/clk_pll" \
+"../../../../../../rtl/xilinx_ip/clk_pll/clk_pll_clk_wiz.v" \
+"../../../../../../rtl/xilinx_ip/clk_pll/clk_pll.v" \
+"../../../../../../rtl/xilinx_ip/axi_ram/sim/axi_ram.v" \
+"../../../../../../rtl/xilinx_ip/axi_crossbar_1x2/sim/axi_crossbar_1x2.v" \
+"../../../../../../rtl/xilinx_ip/axi_clock_converter/sim/axi_clock_converter.v" \
+"../../../../../../rtl/axi_wrap/axi_wrap.v" \
+"../../../../../../rtl/ram_wrap/axi_wrap_ram.v" \
+"../../../../../../rtl/myCPU/bridge_1x2.v" \
+"../../../../../../rtl/myCPU/bridge_2x1.v" \
+"../../../../../../rtl/myCPU/cache.v" \
+"../../../../../../rtl/CONFREG/confreg.v" \
+"../../../../../../rtl/myCPU/cp0_reg.v" \
+"../../../../../../rtl/myCPU/cpu_axi_interface.v" \
+"../../../../../../rtl/myCPU/ctrl.v" \
+"../../../../../../rtl/myCPU/d_cache.v" \
+"../../../../../../rtl/myCPU/d_sram_to_sram_like.v" \
+"../../../../../../rtl/myCPU/div.v" \
+"../../../../../../rtl/myCPU/ex.v" \
+"../../../../../../rtl/myCPU/ex_mem.v" \
+"../../../../../../rtl/myCPU/hilo_reg.v" \
+"../../../../../../rtl/myCPU/i_cache.v" \
+"../../../../../../rtl/myCPU/i_sram_to_sram_like.v" \
+"../../../../../../rtl/myCPU/id.v" \
+"../../../../../../rtl/myCPU/id_ex.v" \
+"../../../../../../rtl/myCPU/if_id.v" \
+"../../../../../../rtl/myCPU/mem.v" \
+"../../../../../../rtl/myCPU/mem_wb.v" \
+"../../../../../../rtl/myCPU/mips_core.v" \
+"../../../../../../rtl/myCPU/mmu.v" \
+"../../../../../../rtl/myCPU/mycpu_top.v" \
+"../../../../../../rtl/myCPU/openmips.v" \
+"../../../../../../rtl/myCPU/pc_reg.v" \
+"../../../../../../rtl/myCPU/regfile.v" \
+"../../../../../../rtl/soc_axi_lite_top.v" \
+"../../../../../../testbench/mycpu_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

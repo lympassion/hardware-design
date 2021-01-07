@@ -1,0 +1,105 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Thu Jan  7 12:15:14 2021
+# Process ID: 72144
+# Current directory: D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent62892 D:\practice_code\subject\hardware_design\axi\axi_cache\run_vivado\mycpu_prj1\mycpu.xpr
+# Log file: D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/vivado.log
+# Journal file: D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.xpr
+update_compile_order -fileset sources_1
+set_property -dict [list CONFIG.Coe_File {D:/practice_code/subject/hardware_design/soft/func_full/obj/inst_ram.coe}] [get_ips axi_ram]
+launch_simulation
+open_wave_config D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/tb_top_behav.wcfg
+source tb_top.tcl
+run all
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+run all
+save_wave_config {D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
+relaunch_sim
+run all
+run all
+relaunch_sim
+run all
+save_wave_config {D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
+relaunch_sim
+set_property -dict [list CONFIG.Coe_File {D:/practice_code/subject/hardware_design/soft/func_part/obj_2/inst_ram.coe}] [get_ips axi_ram]
+generate_target all [get_files  D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/xilinx_ip/axi_ram/axi_ram.xci]
+export_ip_user_files -of_objects [get_files D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/xilinx_ip/axi_ram/axi_ram.xci] -no_script -sync -force -quiet
+reset_run axi_ram_synth_1
+launch_runs -jobs 4 axi_ram_synth_1
+export_simulation -of_objects [get_files D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/xilinx_ip/axi_ram/axi_ram.xci] -directory D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.ip_user_files/sim_scripts -ip_user_files_dir D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.ip_user_files -ipstatic_source_dir D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.ip_user_files/ipstatic -lib_map_path [list {modelsim=D:/practice_code/subject/hardware_design/Modeltech_pe_edu_10.4a/xilinx_lib} {questa=D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.cache/compile_simlib/questa} {riviera=D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.cache/compile_simlib/riviera} {activehdl=D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.cache/compile_simlib/activehdl}] -use_ip_compiled_libs -force -quiet
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+add_files {D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/mem_wb.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/cache.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/bridge_1x2.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/hilo_reg.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/regfile.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/ctrl.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/if_id.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/bridge_2x1.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/defines.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/i_sram_to_sram_like.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/mycpu_top.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/pc_reg.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/main_decoder.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/ex.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/mips_core.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/id_ex.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/openmips.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/d_cache.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/div.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/d_sram_to_sram_like.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/cpu_axi_interface.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/ex_mem.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/cp0_reg.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/i_cache.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/mem.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/id.v D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/mmu.v}
+update_compile_order -fileset sources_1
+export_ip_user_files -of_objects  [get_files D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/main_decoder.v] -no_script -reset -force -quiet
+remove_files  D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/myCPU/main_decoder.v
+set_property -dict [list CONFIG.Coe_File {D:/practice_code/subject/hardware_design/soft/func_part/obj_2/inst_ram.coe}] [get_ips axi_ram]
+save_wave_config {D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/tb_top_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/tb_top_behav.wcfg
+source tb_top.tcl
+run all
+set_property -dict [list CONFIG.Coe_File {D:/practice_code/subject/hardware_design/soft/func_part/obj_1/inst_ram.coe}] [get_ips axi_ram]
+run all
+relaunch_sim
+run all
+close_sim
+generate_target Simulation [get_files D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/xilinx_ip/axi_ram/axi_ram.xci]
+export_ip_user_files -of_objects [get_files D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/xilinx_ip/axi_ram/axi_ram.xci] -no_script -sync -force -quiet
+export_simulation -of_objects [get_files D:/practice_code/subject/hardware_design/axi/axi_cache/rtl/xilinx_ip/axi_ram/axi_ram.xci] -directory D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.ip_user_files/sim_scripts -ip_user_files_dir D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.ip_user_files -ipstatic_source_dir D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.ip_user_files/ipstatic -lib_map_path [list {modelsim=D:/practice_code/subject/hardware_design/Modeltech_pe_edu_10.4a/xilinx_lib} {questa=D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.cache/compile_simlib/questa} {riviera=D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.cache/compile_simlib/riviera} {activehdl=D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/mycpu.cache/compile_simlib/activehdl}] -use_ip_compiled_libs -force -quiet
+launch_simulation
+open_wave_config D:/practice_code/subject/hardware_design/axi/axi_cache/run_vivado/mycpu_prj1/tb_top_behav.wcfg
+source tb_top.tcl
+run all
+open_project D:/practice_code/subject/hardware_design/soc_sram_func/run_vivado/mycpu_prj1/mycpu.xpr
+update_compile_order -fileset sources_1
+set_property -dict [list CONFIG.Coe_File {D:/practice_code/subject/hardware_design/soft/func_full/obj/inst_ram.coe}] [get_ips inst_ram]
