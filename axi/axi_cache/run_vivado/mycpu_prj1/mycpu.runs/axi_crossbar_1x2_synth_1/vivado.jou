@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Wed Jan  6 21:13:42 2021
+# Process ID: 25032
+# Current directory: D:/vivado-project/soc_axi_func/run_vivado/mycpu_prj1/mycpu.runs/axi_crossbar_1x2_synth_1
+# Command line: vivado.exe -log axi_crossbar_1x2.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source axi_crossbar_1x2.tcl
+# Log file: D:/vivado-project/soc_axi_func/run_vivado/mycpu_prj1/mycpu.runs/axi_crossbar_1x2_synth_1/axi_crossbar_1x2.vds
+# Journal file: D:/vivado-project/soc_axi_func/run_vivado/mycpu_prj1/mycpu.runs/axi_crossbar_1x2_synth_1\vivado.jou
+#-----------------------------------------------------------
+source axi_crossbar_1x2.tcl -notrace
